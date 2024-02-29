@@ -1,0 +1,394 @@
+{% extends layout %} {% load i18n %} {% block title %}{% translate
+"Questions"%}{% endblock %} {% block content %}
+
+<style>
+  .step {
+    display: none;
+  }
+  .step.active {
+    display: block;
+  }
+
+  .group-btnslider {
+    position: absolute;
+    top: 50%;
+  }
+</style>
+
+<div id="stepForm">
+  <!-- Step 1 -->
+  <div class="step active" id="step1">
+    <div class="first-question-section-mmain">
+      <img
+        class="first-img-section"
+        src="../../../assets/media/logos/firstQuestion.jpg"
+        alt=""
+      />
+      <div class="question_answer_div">
+        <div class="question-content-amin">
+          <div class="question-content">
+            <label class="form-label fw-bold text-dark"
+              > Q:1.What is the country of origin for the invention?
+            </label>
+          </div>
+          <div class="question-content-answer">
+            <select class="countries-div" name="country_filing_destination">
+              <option value="Worldwide">Worldwide</option>
+              {% for country_code, country_name in countries %}
+              <option value="{{ country_name }}">{{ country_name }}</option>
+              {% endfor %}
+            </select>
+            <span class="validation-message" id="countryValidation"></span>
+          </div>
+        </div>
+      </div>
+      <div class="group-btnslider">
+        <div class="btngroups-next">
+          <button onclick="nextStep()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step" id="step2">
+    <div class="first-question-section-mmain">
+      <img
+        class="first-img-section"
+        src="../../../assets/media/logos/firstQuestion.jpg"
+        alt=""
+      />
+      <div class="question_answer_div">
+        <div class="question-content-amin">
+          <div class="question-content">
+            <label class="form-label fw-bold text-dark"
+              >Q:2.What is Target Filing Countries?
+            </label>
+          </div>
+          <div class="question-content-answer">
+            <select class="countries-div" name="country_filing_destination">
+              <option value="Worldwide">Worldwide</option>
+              {% for country_code, country_name in countries %}
+              <option value="{{ country_name }}">{{ country_name }}</option>
+              {% endfor %}
+            </select>
+            <span class="validation-message" id="countryValidation"></span>
+          </div>
+        </div>
+      </div>
+      <div class="group-btnslider">
+        <div class="btngroups">
+          <button onclick="prevStep()">Previous</button>
+          <button onclick="nextStep()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Step 3 -->
+    <div class="step" id="step2">
+        <div class="first-question-section-mmain">
+          <img
+            class="first-img-section"
+            src="../../../assets/media/logos/firstQuestion.jpg"
+            alt=""
+          />
+          <div class="question_answer_div">
+            <div class="question-content-amin">
+              <div class="question-content">
+                <label class="form-label fw-bold text-dark"
+                  >Q:3.Field of the Invention?
+                </label>
+              </div>
+              <div class="question-content-answer">
+                <select class="countries-div" name="country_filing_destination">
+                  <option value="Worldwide">Worldwide</option>
+                  {% for country_code, country_name in countries %}
+                  <option value="{{ country_name }}">{{ country_name }}</option>
+                  {% endfor %}
+                </select>
+                <span class="validation-message" id="countryValidation"></span>
+              </div>
+            </div>
+          </div>
+          <div class="group-btnslider">
+            <div class="btngroups">
+              <button onclick="prevStep()">Previous</button>
+              <button onclick="nextStep()">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- Step 4 -->
+  <div class="step" id="step2">
+    <div class="first-question-section-mmain">
+      <img
+        class="first-img-section"
+        src="../../../assets/media/logos/firstQuestion.jpg"
+        alt=""
+      />
+      <div class="question_answer_div">
+        <div class="question-content-amin">
+          <div class="question-content">
+            <label class="form-label fw-bold text-dark"
+              >Q:4.Creativity Level?
+            </label>
+          </div>
+          <div class="question-content-answer">
+            <select class="countries-div" name="country_filing_destination">
+              <option value="Worldwide">Worldwide</option>
+              {% for country_code, country_name in countries %}
+              <option value="{{ country_name }}">{{ country_name }}</option>
+              {% endfor %}
+            </select>
+            <span class="validation-message" id="countryValidation"></span>
+          </div>
+        </div>
+      </div>
+      <div class="group-btnslider">
+        <div class="btngroups">
+          <button onclick="prevStep()">Previous</button>
+          <button onclick="nextStep()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Step 5 -->
+    <div class="step" id="step2">
+        <div class="first-question-section-mmain">
+          <img
+            class="first-img-section"
+            src="../../../assets/media/logos/firstQuestion.jpg"
+            alt=""
+          />
+          <div class="question_answer_div">
+            <div class="question-content-amin">
+              <div class="question-content">
+                <label class="form-label fw-bold text-dark"
+                  >Q:5.Patent Title?
+                </label>
+              </div>
+              <div class="question-content-answer">
+                <select class="countries-div" name="country_filing_destination">
+                  <option value="Worldwide">Worldwide</option>
+                  {% for country_code, country_name in countries %}
+                  <option value="{{ country_name }}">{{ country_name }}</option>
+                  {% endfor %}
+                </select>
+                <span class="validation-message" id="countryValidation"></span>
+              </div>
+            </div>
+          </div>
+          <div class="group-btnslider">
+            <div class="btngroups">
+              <button onclick="prevStep()">Previous</button>
+              <button onclick="nextStep()">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+        <!-- Step 6 -->
+  <div class="step" id="step2">
+    <div class="first-question-section-mmain">
+      <img
+        class="first-img-section"
+        src="../../../assets/media/logos/firstQuestion.jpg"
+        alt=""
+      />
+      <div class="question_answer_div">
+        <div class="question-content-amin">
+          <div class="question-content">
+            <label class="form-label fw-bold text-dark"
+              >Q:6.Inventor(s)?
+            </label>
+          </div>
+          <div class="question-content-answer">
+            <select class="countries-div" name="country_filing_destination">
+              <option value="Worldwide">Worldwide</option>
+              {% for country_code, country_name in countries %}
+              <option value="{{ country_name }}">{{ country_name }}</option>
+              {% endfor %}
+            </select>
+            <span class="validation-message" id="countryValidation"></span>
+          </div>
+        </div>
+      </div>
+      <div class="group-btnslider">
+        <div class="btngroups">
+          <button onclick="prevStep()">Previous</button>
+          <button onclick="nextStep()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Step 7 -->
+    <div class="step" id="step2">
+        <div class="first-question-section-mmain">
+          <img
+            class="first-img-section"
+            src="../../../assets/media/logos/firstQuestion.jpg"
+            alt=""
+          />
+          <div class="question_answer_div">
+            <div class="question-content-amin">
+              <div class="question-content">
+                <label class="form-label fw-bold text-dark"
+                  >Q:7.Invention Description?
+                </label>
+              </div>
+              <div class="question-content-answer">
+                <select class="countries-div" name="country_filing_destination">
+                  <option value="Worldwide">Worldwide</option>
+                  {% for country_code, country_name in countries %}
+                  <option value="{{ country_name }}">{{ country_name }}</option>
+                  {% endfor %}
+                </select>
+                <span class="validation-message" id="countryValidation"></span>
+              </div>
+            </div>
+          </div>
+          <div class="group-btnslider">
+            <div class="btngroups">
+              <button onclick="prevStep()">Previous</button>
+              <button onclick="nextStep()">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+        <!-- Step 8 -->
+  <div class="step" id="step2">
+    <div class="first-question-section-mmain">
+      <img
+        class="first-img-section"
+        src="../../../assets/media/logos/firstQuestion.jpg"
+        alt=""
+      />
+      <div class="question_answer_div">
+        <div class="question-content-amin">
+          <div class="question-content">
+            <label class="form-label fw-bold text-dark"
+              >Q:8.Problem Addressed?
+            </label>
+          </div>
+          <div class="question-content-answer">
+            <select class="countries-div" name="country_filing_destination">
+              <option value="Worldwide">Worldwide</option>
+              {% for country_code, country_name in countries %}
+              <option value="{{ country_name }}">{{ country_name }}</option>
+              {% endfor %}
+            </select>
+            <span class="validation-message" id="countryValidation"></span>
+          </div>
+        </div>
+      </div>
+      <div class="group-btnslider">
+        <div class="btngroups">
+          <button onclick="prevStep()">Previous</button>
+          <button onclick="nextStep()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Step 9 -->
+    <div class="step" id="step2">
+        <div class="first-question-section-mmain">
+          <img
+            class="first-img-section"
+            src="../../../assets/media/logos/firstQuestion.jpg"
+            alt=""
+          />
+          <div class="question_answer_div">
+            <div class="question-content-amin">
+              <div class="question-content">
+                <label class="form-label fw-bold text-dark"
+                  >Q:9.Key Features?
+                </label>
+              </div>
+              <div class="question-content-answer">
+                <select class="countries-div" name="country_filing_destination">
+                  <option value="Worldwide">Worldwide</option>
+                  {% for country_code, country_name in countries %}
+                  <option value="{{ country_name }}">{{ country_name }}</option>
+                  {% endfor %}
+                </select>
+                <span class="validation-message" id="countryValidation"></span>
+              </div>
+            </div>
+          </div>
+          <div class="group-btnslider">
+            <div class="btngroups">
+              <button onclick="prevStep()">Previous</button>
+              <button onclick="nextStep()">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  <!-- Step 10 -->
+  <div class="step" id="step3">
+    <div class="first-question-section-mmain">
+      <img
+        class="first-img-section"
+        src="../../../assets/media/logos/firstQuestion.jpg"
+        alt=""
+      />
+      <div class="question_answer_div">
+        <div class="question-content-amin">
+          <div class="question-content">
+            <label class="form-label fw-bold text-dark"
+              >Q:10.Advantages Over Existing Solutions?
+            </label>
+          </div>
+          <div class="question-content-answer">
+            <select class="countries-div" name="country_filing_destination">
+              <option value="Worldwide">Worldwide</option>
+              {% for country_code, country_name in countries %}
+              <option value="{{ country_name }}">{{ country_name }}</option>
+              {% endfor %}
+            </select>
+            <span class="validation-message" id="countryValidation"></span>
+          </div>
+        </div>
+      </div>
+      <div class="group-btnslider">
+        <div class="btngroups">
+          <button onclick="prevStep()">Previous</button>
+          <button type="submit">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var currentStep = 0;
+  var steps = document.querySelectorAll(".step");
+
+  function nextStep() {
+    if (currentStep < steps.length - 1) {
+      steps[currentStep].classList.remove("active");
+      currentStep++;
+      steps[currentStep].classList.add("active");
+    }
+  }
+
+  function prevStep() {
+    if (currentStep > 0) {
+      steps[currentStep].classList.remove("active");
+      currentStep--;
+      steps[currentStep].classList.add("active");
+    }
+  }
+</script>
+
+{% endblock content %}

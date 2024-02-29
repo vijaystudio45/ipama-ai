@@ -1,0 +1,1594 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Upload-PDF" %}{% endblock %}
+
+{% block content %}
+
+
+<script>
+  var defaultThemeMode = "light";
+  var themeMode;
+  if (document.documentElement) {
+    if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+      themeMode =
+        document.documentElement.getAttribute("data-bs-theme-mode");
+    } else {
+      if (localStorage.getItem("data-bs-theme") !== null) {
+        themeMode = localStorage.getItem("data-bs-theme");
+      } else {
+        themeMode = defaultThemeMode;
+      }
+    }
+    if (themeMode === "system") {
+      themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    }
+    document.documentElement.setAttribute("data-bs-theme", themeMode);
+  }
+</script>
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .hidden-logo {
+    display: none;
+  }
+
+  .upload-files-container {
+    background-color: #f7fff7;
+    width: 420px;
+    padding: 30px 60px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 20px, rgba(0, 0, 0, 0.28) 0px 6px 6px;
+  }
+
+  .drag-file-area {
+    border: 2px dashed#1b84ff;
+    border-radius: 40px;
+    margin: 10px 0 15px;
+    padding: 30px 50px;
+    width: 350px;
+    text-align: center;
+  }
+
+  .upload-pdf-file-sections {
+    display: flex;
+    justify-content: center;
+}
+
+  .form-control.form-control-solid {
+    background-color: #e9e7e7;
+}
+
+  .drag-file-area .upload-icon {
+    font-size: 50px;
+  }
+
+  .drag-file-area h3 {
+    font-size: 26px;
+    margin: 15px 0;
+  }
+
+  .drag-file-area label {
+    font-size: 19px;
+  }
+
+  .drag-file-area label .browse-files-text {
+    color: #1b84ff;
+    font-weight: bolder;
+    cursor: pointer;
+  }
+
+  .browse-files span {
+    position: relative;
+    top: -25px;
+    right: 20%;
+  }
+
+  .default-file-input {
+    opacity: 0;
+  }
+
+  .cannot-upload-message {
+    background-color: #ffc6c4;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    padding: 5px 10px 5px 30px;
+    border-radius: 5px;
+    color: #BB0000;
+    display: none;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .cannot-upload-message span,
+  .upload-button-icon {
+    padding-right: 10px;
+  }
+
+  .cannot-upload-message span:last-child {
+    padding-left: 20px;
+    cursor: pointer;
+  }
+
+  .file-block {
+    color: #f7fff7;
+    background-color: #1b84ff;
+    transition: all 1s;
+    width: 390px;
+    position: relative;
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0 15px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+  }
+
+  .file-info {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+  }
+
+  .file-icon {
+    margin-right: 10px;
+  }
+
+  .file-name,
+  .file-size {
+    padding: 0 3px;
+  }
+
+  .remove-file-icon {
+    cursor: pointer;
+  }
+
+  .progress-bar {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 4.5%;
+    width: 0;
+    height: 5px;
+    border-radius: 25px;
+    background-color: #4BB543;
+  }
+
+  .upload-button {
+    font-family: 'Montserrat';
+    background-color: #1b84ff;
+    color: #f7fff7;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    border: none;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 7.5px 50px;
+    cursor: pointer;
+  }
+
+  h1.selectedmessage {
+    font-size: 14px;
+    color: #012f64;
+  }
+
+  button#downloadPdfBtn {
+    float: right;
+    border: none;
+    padding: 8px 30px;
+    border-radius: 6px;
+    background: #1b84ff;
+    color: white;
+    font-weight: 600;
+  }
+
+  /* loader  */
+
+  p#loaderPercentage {
+    font-weight: bolder;
+}
+
+
+  .loadershow {
+    position: fixed;
+    top: 0;
+    left: 265px;
+    width: 86%;
+    height: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+
+  .loadershow p {
+    margin-top: 10px;
+    color: #333;
+    font-size: 20px;
+  }
+
+  .hourglass {
+    border: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .hourglass {
+    --bg: #e3e4e8;
+    --fg: #2e3138;
+    --primary: #255ff4;
+    font-size: calc(16px + (24 - 16) * (100vw - 320px) / (1280 - 320));
+  }
+
+  .hourglass {
+    background: var(--bg);
+    display: grid;
+    font: 1em/1.5 sans-serif;
+    height: 100vh;
+    place-items: center;
+  }
+
+  .hourglass,
+  .hourglass:before,
+  .hourglass:after {
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+  }
+
+  .hourglass {
+    --polygonH: polygon(0% 0%, 100% 0%, 100% 5.55%, 95% 5.55%, 95% 28%, 60% 46%, 60% 54%, 95% 72%, 95% 94.45%, 100% 94.45%, 100% 100%, 0% 100%, 0% 94.45%, 5% 94.45%, 5% 72%, 40% 54%, 40% 46%, 5% 28%, 5% 5.55%, 0% 5.55%);
+    animation-name: flip;
+    animation-timing-function: ease-in-out;
+    background-image: linear-gradient(var(--primary) 0.5em, #737a8c55 0.5em 8.5em, var(--primary) 8.5em);
+    clip-path: var(--polygonH);
+    -webkit-clip-path: var(--polygonH);
+    overflow: hidden;
+    position: relative;
+    width: 5em;
+    height: 9em;
+    z-index: 0;
+  }
+
+  .hourglass:before,
+  .hourglass:after {
+    animation-timing-function: linear;
+    content: "";
+    display: block;
+    position: absolute;
+  }
+
+  .hourglass:before {
+    --polygonB1: polygon(0% 0%, 100% 0%, 100% 24%, 50% 47%, 50% 47%, 50% 47%, 50% 47%, 50% 47%, 50% 47%, 50% 47%, 50% 47%, 0% 24%);
+    --polygonB2: polygon(0% 4%, 100% 4%, 100% 24%, 55% 45%, 55% 100%, 55% 100%, 55% 100%, 45% 100%, 45% 100%, 45% 100%, 45% 45%, 0% 24%);
+    --polygonB3: polygon(0% 24%, 100% 24%, 100% 24%, 55% 45%, 55% 80%, 100% 100%, 100% 100%, 0% 100%, 0% 100%, 45% 80%, 45% 45%, 0% 24%);
+    --polygonB4: polygon(45% 45%, 55% 45%, 55% 45%, 55% 45%, 55% 58%, 100% 76%, 100% 100%, 0% 100%, 0% 76%, 45% 58%, 45% 45%, 45% 45%);
+    --polygonB5: polygon(50% 53%, 50% 53%, 50% 53%, 50% 53%, 50% 53%, 100% 76%, 100% 100%, 0% 100%, 0% 76%, 50% 53%, 50% 53%, 50% 53%);
+    animation-name: fill;
+    background-color: var(--fg);
+    background-size: 100% 3.6em;
+    clip-path: var(--polygonB1);
+    -webkit-clip-path: var(--polygonB1);
+    top: 0.5em;
+    left: 0.5em;
+    width: 4em;
+    height: 8em;
+    z-index: 1;
+  }
+
+  .hourglass:after {
+    animation-name: glare;
+    background:
+      linear-gradient(90deg, #0000 0.5em, #0003 0.5em 1.5em, #0000 1.5em 3.5em, #fff3 3.5em 4.5em, #fff0 4.5em 6.5em, #0003 6.5em 7.5em, #0000 7.5em) 0 0 / 100% 0.5em,
+      linear-gradient(90deg, #0000 0.75em, #0003 0.75em 1.25em, #0000 1.25em 3.75em, #fff3 3.75em 4.25em, #fff0 4.25em 6.75em, #0003 6.75em 7.25em, #0000 7.25em) 0 0.5em / 100% 8em,
+      linear-gradient(90deg, #0000 0.5em, #0003 0.5em 1.5em, #0000 1.5em 3.5em, #fff3 3.5em 4.5em, #fff0 4.5em 6.5em, #0003 6.5em 7.5em, #0000 7.5em) 0 100% / 100% 0.5em;
+    background-repeat: repeat-x;
+    top: 0;
+    left: -3em;
+    width: 200%;
+    height: 100%;
+    z-index: 2;
+  }
+
+  /* Animations */
+  @keyframes fill {
+    from {
+      clip-path: var(--polygonB1);
+      -webkit-clip-path: var(--polygonB1);
+    }
+
+    10% {
+      clip-path: var(--polygonB2);
+      -webkit-clip-path: var(--polygonB2);
+    }
+
+    45% {
+      clip-path: var(--polygonB3);
+      -webkit-clip-path: var(--polygonB3);
+    }
+
+    80% {
+      clip-path: var(--polygonB4);
+      -webkit-clip-path: var(--polygonB4);
+    }
+
+    85%,
+    to {
+      clip-path: var(--polygonB5);
+      -webkit-clip-path: var(--polygonB5);
+    }
+  }
+
+  @keyframes glare {
+
+    from,
+    90% {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(3em);
+    }
+  }
+
+  @keyframes flip {
+
+    from,
+    90% {
+      transform: rotate(0);
+    }
+
+    to {
+      transform: rotate(180deg);
+    }
+  }
+
+  /* Dark mode */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17181c;
+      --fg: #c7cad1;
+    }
+  }
+</style>
+
+
+<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+  <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+
+    <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+      <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">
+        <!-- Upload PDF and Convert File -->
+        Upload PDF and Generate Patent Analysis Report
+      </h1>
+      <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+        <li class="breadcrumb-item text-muted">
+          <a href="/" class="text-muted text-hover-primary">Dashboard / </a>
+        </li>
+        <li class="breadcrumb-item text-muted">Upload PDF File</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="w-lg-850px Patentdiv">
+  <form class="form w-100" method="post" id="createPatentForm">
+    {% csrf_token %}
+    <div class="row mb-10">
+      <div class="col-md-3 d-flex align-items-center justify-content-center">
+        <label class="form-label fs-6 fw-bold text-dark">Country Filing Destination : </label>
+      </div>
+      <div class="col-md-9">
+        <select class="form-control form-control-lg form-control-solid" name="country_filing_destination">
+            <option value="Worldwide">Worldwide</option>
+            {% for country_code, country_name in countries %}
+                <option value="{{ country_name }}">{{ country_name }}</option>
+            {% endfor %}
+        </select>
+        <span class="validation-message" id="countryValidation"></span>
+      </div>
+    </div>
+
+    <!-- Add client_company_name field -->
+    <div class="row mb-10">
+      <div class="col-md-3 d-flex align-items-center justify-content-center">
+        <label class="form-label fs-6 fw-bold text-dark">Client Company Name : </label>
+      </div>
+      <div class="col-md-9">
+        <input class="form-control form-control-lg form-control-solid" type="text" name="client_company_name" autocomplete="off" />
+      </div>
+    </div>
+   
+    <!-- <div class="col-md-3 d-flex align-items-center justify-content-center">
+      <div class="col-md-9"> -->
+
+
+    <!-- Add client_contact_info field -->
+    <div class="row mb-10">
+      <div class="col-md-3 d-flex align-items-center justify-content-center">
+        <label class="form-label fs-6 fw-bold text-dark">Client Contact Info : </label>
+      </div>
+      <div class="col-md-9">
+        <input class="form-control form-control-lg form-control-solid" type="text" name="client_contact_info" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="row mb-10">
+      <div class="col-md-3 d-flex align-items-center justify-content-center">
+        <label class="form-label fs-6 fw-bold text-dark">Country Origin</label>
+      </div>
+      <div class="col-md-9">
+        <input class="form-control form-control-lg form-control-solid" type="text" name="country_origin" autocomplete="off" />
+      </div>
+    </div>
+ <div class="upload-pdf-file-sections">
+    <div class="upload-files-container">
+        <div class="drag-file-area">
+            <span class="material-icons-outlined upload-icon">file_upload</span>
+            <h3 class="dynamic-message">Drag & drop any file here</h3>
+            <label class="label">
+                <span class="browse-files">
+                    <input type="file" class="default-file-input" id="fileInput" />
+                    <span class="browse-files-text">browse file</span>
+                    <span>from device</span>
+                </span>
+            </label>
+            <h1 class="selectedmessage" id="selectedFileName"></h1>
+        </div>
+
+        <button type="button" class="upload-button" id="uploadBtn"> Upload </button>
+    </div>
+  </div>
+</form>
+</div>
+
+<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+  <!--begin::Content wrapper-->
+  <div class="d-flex flex-column flex-column-fluid">
+    <!--begin::Toolbar-->
+    <div id="kt_app_toolbar" class="app-toolbar pt-5">
+      <!--begin::Toolbar container-->
+      <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex align-items-stretch">
+      </div>
+      <!--end::Toolbar container-->
+    </div>
+    <!--end::Toolbar-->
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+      <div class="w-lg-500px">
+
+        <div id="kt_app_content_container" class="app-container container-fluid">
+        <div class="w-lg-500px Patentdiv">
+          <!-- <form class="form-container" enctype='multipart/form-data' id="uploadForm">
+            <div class="upload-files-container">
+              <div class="drag-file-area">
+                <span class="material-icons-outlined upload-icon">file_upload</span>
+                <h3 class="dynamic-message">Drag & drop any file here</h3>
+                <label class="label">
+                  <span class="browse-files">
+                    <input type="file" class="default-file-input" id="fileInput" />
+                    <span class="browse-files-text">browse file</span>
+                    <span>from device</span>
+                  </span>
+                </label>
+                <h1 class="selectedmessage" id="selectedFileName"></h1>
+              </div>
+
+              <button type="button" class="upload-button" id="uploadBtn"> Upload </button>
+            </div>
+          </form> -->
+
+          <div id="fieldinvention" style="display: none;"></div>
+          <div id="abstract" style="display: none;"></div>
+          <div id="summary" style="display: none;"></div>
+          <div id="inventor" style="display: none;"></div>
+          <div id="potentialapplication" style="display: none;"></div>
+          <div id="innovativecomponent" style="display: none;"></div>
+          <div id="ipprotectionstrategies" style="display: none;"></div>
+          <div id="market_overview" style="display: none;"></div>
+          <div id="target_market_segments" style="display: none;"></div>
+          <div id="regulatory_landscape" style="display: none;"></div>
+          <div id="ip_protection_strategies" style="display: none;"></div>
+          <div id="compliance_requirements" style="display: none;"></div>
+          <div id="futuredirections" style="display: none;"></div>
+          <div id="collaboration_opportunities" style="display: none;"></div>
+          <div id="glossary_of_terms" style="display: none;"></div>
+          <div id="reference_and_links" style="display: none;"></div>
+          <div id="licensing_opportunities" style="display: none;"></div>
+          <div id="enhanced_ipc_analysis" style="display: none;"></div>
+          <div id="ipcObjectpdf" style="display: none;"></div>
+          <div id="graphs" style="display: none;"></div>
+          <div id="client_company_name_" style="display: none;"></div>
+          <div id="client_contact_info_" style="display: none;"></div>
+          <div id="country_filing_destination_" style="display: none;"></div>
+          <div id="country_origin_" style="display: none;"></div>
+          <div class="loadershow" id="fullScreenLoader" style="display: none;">
+            <p id="loaderPercentage">0%</p>
+            <div class="hourglass"></div>
+            <p>Loading....</p>
+          </div>
+
+
+
+
+          <!-- Display the selected file name within an h1 tag -->
+        </div>
+      </div>
+
+        <!--end::Content container-->
+      </div>
+
+    </div>
+
+    <div id="kt_app_toolbar" class="app-toolbar pt-5">
+      <!--begin::Toolbar container-->
+      <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex align-items-stretch">
+      </div>
+      <!--end::Toolbar container-->
+    </div>
+
+    <div class="d-flex flex-column flex-column-fluid mt-50">
+      <div id="kt_app_content" class="app-content flex-column-fluid">
+        <button id="downloadPdfBtn">Downlod Report PDF</button>
+        <h2 class="">Result:</h2>
+        <img alt="Logo" src="{% static 'media/logos/Hannah-removebg.png' %}" class="hidden-logo" id="hiddenLogo" />
+        <img alt="Logo" src="{% static 'media/logos/img-dVUDYlIpuMc4zA7ECmWe6zub.png' %}" class="hidden-logo" id="hiddenLogofirst" />
+        <img alt="Logo" src="{% static 'media/logos/img-FxjSKUvhcVipDUHy9UqnmOFw.png' %}" class="hidden-logo" id="hiddenLogosecond" />
+        <img alt="Logo" src="{% static 'media/logos/menicons.png' %}" class="hidden-logo" id="hiddenLogoThird" />
+        <img alt="Logo" src="{% static 'media/logos/uericnos.png' %}" class="hidden-logo" id="hiddenLogoFour" />
+        <img alt="Logo" src="{% static 'media/logos/globe-showing-data-icons.svg' %}" class="hidden-logo" id="hiddenLogoFive" />
+        <img alt="Logo" src="{% static 'media/logos/gearFirst.png' %}" class="hidden-logo" id="hiddenLogoSix" />
+        <img alt="Logo" src="{% static 'media/logos/ailogoshow.png' %}" class="hidden-logo" id="hiddenLogoSeven" />
+
+
+        <!-- uericnos.png -->
+        <!-- globe-showing-data-icons.svg -->
+
+
+        <!-- gearFirst.png -->
+        <!-- ailogoshow.png -->
+
+        <hr />
+        <div id="json_result_data"> </div>
+
+      </div>
+
+
+    </div>
+    <div id="json_result_data">
+      <table id="myDataTable2"
+        class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold my-table-hidden">
+        <thead class="fs-7 text-gray-500 text-uppercase">
+          <tr>
+            <th class="min-w-250px">Patentable Scopes</th>
+            <th class="min-w-100px">CIP Edition</th>
+            <th class="min-w-50px">CIP Section</th>
+            <th class="min-w-50px">CIP class</th>
+            <th class="min-w-50px">CIP Subclass</th>
+            <th class="min-w-50px">CIP Group</th>
+            <th class="min-w-50px">CIP Subgroup</th>
+            <th class="min-w-100px">Description</th>
+          </tr>
+        </thead>
+        <tbody class="fs-6">
+          <!-- Response data will be appended here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!--end::Content-->
+  </div>
+
+</div>
+
+<!--Scrolltop-->
+<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+  <i class="ki-duotone ki-arrow-up">
+    <span class="path1"></span>
+    <span class="path2"></span>
+  </i>
+</div>
+<!--Scrolltop-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- my codee  -->
+
+
+<!-- <script>
+  $(document).ready(function () {
+      var selectedFile = null;
+
+      $("#fileInput").change(function () {
+          var fileInput = $("#fileInput")[0];
+          selectedFile = fileInput.files[0];
+          updateSelectedFileInfo();
+      });
+
+      $("#uploadBtn").click(function () {
+          if (selectedFile) {
+              if (selectedFile.type === 'application/pdf') {
+                  var formData = new FormData();
+                  formData.append("file", selectedFile);
+                  formData.append("country_filing_destination", $("select[name='country_filing_destination']").val());
+                  formData.append("client_company_name", $("input[name='client_company_name']").val());
+                  formData.append("client_contact_info", $("input[name='client_contact_info']").val());
+                  formData.append("country_origin", $("input[name='country_origin']").val());
+
+                  var csrftoken = getCookie('csrftoken');
+
+                  // Show the full-screen loader
+                  $("#fullScreenLoader").show();
+
+                  // ... (rest of your existing code)
+
+                  $.ajax({
+                      type: "POST",
+                      url: "{% url 'pdf-upload' %}",
+                      data: formData,
+                      contentType: false,
+                      processData: false,
+                      beforeSend: function (xhr, settings) {
+                          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                      },
+                      // ... (rest of your existing AJAX code)
+                  });
+              } else {
+                  // Display error message for non-PDF file using SweetAlert
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Invalid File Type',
+                      text: 'Please select a PDF file.',
+                      confirmButtonText: 'OK',
+                  });
+              }
+          } else {
+              // Display error message for no file selected using SweetAlert
+              Swal.fire({
+                  icon: 'error',
+                  title: 'No File Selected',
+                  text: 'Please select a file first.',
+                  confirmButtonText: 'OK',
+              });
+          }
+      });
+
+      // ... (rest of your existing code)
+
+      function updateSelectedFileInfo() {
+          if (selectedFile) {
+              $("#selectedFileName").text("Selected File: " + selectedFile.name);
+          } else {
+              $("#selectedFileName").text("");
+          }
+      }
+
+      // ... (rest of your existing code)
+
+      function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = cookies[i].trim();
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+  });
+</script> -->
+
+ <script>
+  $(document).ready(function () {
+    var selectedFile = null;
+
+    $("#fileInput").change(function () {
+      var fileInput = $("#fileInput")[0];
+      selectedFile = fileInput.files[0];
+      updateSelectedFileInfo();
+    });
+
+
+
+    $("#uploadBtn").click(function () {
+      if (selectedFile) {
+        if (selectedFile.type === 'application/pdf') {
+          var formData = new FormData();
+          formData.append("file", selectedFile);
+              var formData = new FormData();
+                  formData.append("file", selectedFile);
+                  formData.append("country_filing_destination", $("select[name='country_filing_destination']").val());
+                  formData.append("client_company_name", $("input[name='client_company_name']").val());
+                  formData.append("client_contact_info", $("input[name='client_contact_info']").val());
+                  formData.append("country_origin", $("input[name='country_origin']").val());
+
+                  var csrftoken = getCookie('csrftoken');
+          var csrftoken = getCookie('csrftoken');
+
+          // Show the full-screen loader
+          $("#fullScreenLoader").show();
+
+          // Clear the existing table rows
+          $("#myDataTable2 tbody").empty();
+
+          var percentage = 0;
+            var timer = setInterval(function () {
+                updateLoaderPercentage(percentage);
+                percentage++;
+                if (percentage > 97) {
+                    clearInterval(timer);
+                }
+            }, 700); // Adjust this value to control the speed of incrementing
+
+          $.ajax({
+            type: "POST",
+            url: "{% url 'pdf-upload' %}",
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function (xhr, settings) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success: function (responseData) {
+              updateLoaderPercentage(100)
+              clearInterval(timer);
+              // Hide the full-screen loader
+              setTimeout(function() {
+                $("#fullScreenLoader").hide();
+                    }, 2000);
+              // $("#fullScreenLoader").hide();
+
+              // Display success message for file upload using SweetAlert
+              Swal.fire({
+                icon: 'success',
+                title: 'File Uploaded Successfully',
+                text: 'The file has been uploaded successfully.',
+                confirmButtonText: 'OK',
+              });
+
+              // Display ipc_objects data in the table
+              if (responseData && responseData.context && responseData.context.ipc_objects) {
+                $("#summary").append(responseData.context.data_from_pdf.Summary);
+                $("#abstract").append(responseData.context.Abstract);
+                $("#enhanced_ipc_analysis").append(responseData.context.enhanced_ipc_analysis);
+                $("#reference_and_links").append(responseData.context.reference_and_links);
+                $("#fieldinvention").append(responseData.context.data_from_pdf.field_of_invention);
+                $("#regulatory_landscape").append(responseData.context.regulatory_landscape);
+                $("#inventor").append(responseData.context.data_from_pdf.inventor);
+                $("#potentialapplication").append(responseData.context.generate_potential_application);
+                $("#innovativecomponent").append(responseData.context.innovative_component);
+                $("#ipprotectionstrategies").append(responseData.context.ip_protection_strategies);
+                $("#market_overview").append(responseData.context.market_overview);
+                $("#compliance_requirements").append(responseData.context.compliance_requirements);
+                $("#ip_protection_strategies").append(responseData.context.ip_protection_strategies);
+                $("#futuredirections").append(responseData.context.future_directions);
+                $("#glossary_of_terms").append(responseData.context.glossary_of_terms);
+                $("#collaboration_opportunities").append(responseData.context.collaboration_opportunities);
+                $("#licensing_opportunities").append(responseData.context.licensing_opportunities);
+                $("#client_company_name_").append(responseData.context?.client_company_name);
+                $("#client_contact_info_").append(responseData.context?.client_contact_info);
+                $("#country_filing_destination_").append(responseData.context?.country_filing_destination);
+                $("#country_origin_").append(responseData.context?.country_origin);
+                
+                responseData.context.ipc_objects.forEach(function (ipcObject) {
+                var ipcRow ="<div>" + "<p>" + ipcObject.section + "/" + ipcObject.main_class + "/" + ipcObject.subclass + "/" + ipcObject.main_group + "/" + ipcObject.subgroup + "/" + ipcObject.text_body + "</p>" + "</div>";
+                $("#ipcObjectpdf").append(ipcRow); // Added "#" before "ipcObjectpdf"
+                });
+
+                var graphs = responseData.context.graphs;
+
+                if (graphs && Array.isArray(graphs)) {
+                  // Clear existing content in the graphs div
+                  $("#graphs").empty();
+
+                  // Iterate over the array of image URLs
+                  graphs.forEach(function(url) {
+                    // Create an img element for each URL
+                    var imgElement = $("<img>").attr("src", url);
+
+
+                    // Append the img element to the graphs div
+                    $("#graphs").append(imgElement);
+                  });
+                }
+
+                // Append the stringified data to #ipcshowdata element
+
+                $("#target_market_segments").append(responseData.context.target_market_segments);
+                responseData.context.ipc_objects.forEach(function (ipcObject) {
+                  var ipcRow = "<tr>" +
+                    "<td>" + (responseData.context.patentable_scopes ? responseData.context.patentable_scopes.join("<br>") : "") + "</td>" +
+                    "<td>" + "" + "</td>" +
+                    "<td>" + (ipcObject.section ? ipcObject.section : "") + "</td>" +
+                    "<td>" + (ipcObject.main_class ? ipcObject.main_class : "") + "</td>" +
+                    "<td>" + (ipcObject.subclass ? ipcObject.subclass : "") + "</td>" +
+                    "<td>" + (ipcObject.main_group ? ipcObject.main_group : "") + "</td>" +
+                    "<td>" + (ipcObject.subgroup ? ipcObject.subgroup : "") + "</td>" +
+                    "<td>" + (ipcObject.text_body ? ipcObject.text_body : "") + "</td>" +
+                    "</tr>";
+                  $("#myDataTable2 tbody").append(ipcRow);
+                });
+              }
+
+              $("#downloadPdfBtn").click(function () {
+                var textContent = extractTextFromTable();
+                var logoImage = $("#hiddenLogo")[0]; // Get the logo image element
+                var currentDate = getCurrentDate();
+                downloadPdf(textContent, logoImage, currentDate);
+              });
+            },
+            error: function (error) {
+              // Hide the full-screen loader
+              $("#fullScreenLoader").hide();
+
+              // Display error message using SweetAlert
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while processing the file. Please try again.',
+                confirmButtonText: 'OK',
+              });
+              console.error("Error:", error);
+            }
+          });
+        } else {
+          // Display error message for non-PDF file using SweetAlert
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File Type',
+            text: 'Please select a PDF file.',
+            confirmButtonText: 'OK',
+          });
+        }
+      } else {
+        // Display error message for no file selected using SweetAlert
+        Swal.fire({
+          icon: 'error',
+          title: 'No File Selected',
+          text: 'Please select a file first.',
+          confirmButtonText: 'OK',
+        });
+      }
+    });
+
+        // Function to update the loader percentage
+        function updateLoaderPercentage(percentage) {
+            $("#loaderPercentage").text(percentage + "%");
+        }
+
+    function updateSelectedFileInfo() {
+      if (selectedFile) {
+        $("#selectedFileName").text("Selected File: " + selectedFile.name);
+      } else {
+        $("#selectedFileName").text("");
+      }
+    }
+    function extractTextFromTable() {
+      var textContent = "";
+
+      $("#myDataTable tbody tr").each(function () {
+        $(this)
+          .find("td")
+          .each(function () {
+            textContent += $(this).text() + "\n";
+          });
+        textContent += "\n"; // Add a newline between rows
+      });
+
+      return textContent.trim(); // Trim to remove leading/trailing whitespace
+    }
+    function getCurrentDate() {
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, "0");
+      var mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+      var yyyy = today.getFullYear();
+
+      return mm + "/" + dd + "/" + yyyy;
+    }
+
+    function getImageDataURL(img) {
+      var canvas = document.createElement("canvas");
+      var ctx = canvas.getContext("2d");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+
+      // Convert the canvas content to a data URL
+      return canvas.toDataURL("image/png");
+    }
+
+    function stripHtml(html) {
+      var doc = new DOMParser().parseFromString(html, "text/html");
+      return doc.body.textContent || "";
+    }
+
+    function downloadPdf() {
+      var table = $("#myDataTable2").DataTable();
+      var logoImage = $("#hiddenLogo")[0];
+      var logoDataURL = getImageDataURL(logoImage);
+      var logoImagefirst = $("#hiddenLogofirst")[0];
+      var logoDataURLFirst = getImageDataURL(logoImagefirst);
+      var hiddenLogosecond = $("#hiddenLogosecond")[0];
+      var logoDataURLSecond = getImageDataURL(hiddenLogosecond);
+
+      var hiddenLogoThird = $("#hiddenLogoThird")[0];
+      var logoDataURLThird = getImageDataURL(hiddenLogoThird);
+
+      var hiddenLogoSeven = $("#hiddenLogoSeven")[0];
+      var logoDataURLSeven = getImageDataURL(hiddenLogoSeven);
+
+      var hiddenLogoSix = $("#hiddenLogoSix")[0];
+      var logoDataURLSix = getImageDataURL(hiddenLogoSix);
+
+      var hiddenLogoFive = $("#hiddenLogoFive")[0];
+      var logoDataURLFive = getImageDataURL(hiddenLogoFive);
+
+      var hiddenLogoFour = $("#hiddenLogoFour")[0];
+      var logoDataURLFour = getImageDataURL(hiddenLogoFour); 
+    
+      var currentDate = getCurrentDate();
+      var summaryText = $("#summary").text().trim();
+      var abstract = $("#abstract").text().trim();
+      var graphs = $("#graphs")[0];
+      var enhanced_ipc_analysis = $("#enhanced_ipc_analysis").text().trim();
+      var reference_and_links=$("#reference_and_links").text().trim();
+      var fieldinventiontext = $("#fieldinvention").text().trim();
+      var splitFieldInventionText = fieldinventiontext.split(".");
+      var regulatory_landscape = $("#regulatory_landscape").text().trim();
+      var inventortext = $("#inventor").text().trim();
+      var potentialapplication = $("#potentialapplication").text().trim();
+      var innovativecomponent = $("#innovativecomponent").text().trim();
+      var ipprotectionstrategies = $("#ipprotectionstrategies").text().trim();
+      var market_overview = $("#market_overview").text().trim();
+      var target_market_segments = $("#target_market_segments").text().trim();
+      var ip_protection_strategies = $("#ip_protection_strategies").text().trim();
+      var compliance_requirements = $("#compliance_requirements").text().trim();
+      var licensing_opportunities = $("#licensing_opportunities").text().trim();
+      var ipcObjectpdf = $("#ipcObjectpdf").text().trim();
+      var client_company_name_ = $("#client_company_name_").text().trim();
+        var client_contact_info_ = $("#client_contact_info_").text().trim();
+        var country_filing_destination_ = $("#country_filing_destination_").text().trim();
+        var country_origin_ = $("#country_origin_").text().trim();
+
+      var ipcObjectsArray = ipcObjectpdf.split("]"); // Split ipcObjectpdf using ']'
+      // Filter out any empty strings
+      ipcObjectsArray = ipcObjectsArray.filter(function(ipcObject) {
+          return ipcObject.trim() !== "";
+      });
+
+      var ipcObjectContent = ipcObjectsArray.map(function(ipcObject) {
+          ipcObject = ipcObject.replace("[", "").trim(); // Remove '[' and trim spaces
+          var ipcFields = ipcObject.split("/"); // Split each ipcObject using '/'
+          
+          // Extract the last field (text) and remove any surrounding single quotes
+          var lastField = ipcFields.pop().trim().replace(/^'|'$/g, "");
+          
+          // Format the ipcObject fields and create text objects
+          var ipcObjectText = ipcFields.join(' / ') + " : - " + "'" + lastField + "'";
+          
+          return { text: ipcObjectText, fontSize: 12, bold: false, margin: [0, 20, 0, 0],alignment:"left" };
+      });
+
+
+
+      var futuredirections = $("#futuredirections").text().trim();
+      var glossary_of_terms = $("#glossary_of_terms").text().trim();
+      var collaboration_opportunities = $("#collaboration_opportunities").text().trim();
+
+      var docDefinition = {
+        header: function(currentPage, pageCount, pageSize) {
+              return {
+                  table: {
+                      widths: ['*'],
+                      heights: 40,
+                      body: [
+                          [
+                              {
+                                  text: 'IPAMAS AI',
+                                  alignment: 'left',
+                                  margin: [10, 10],
+                                  fontSize: 12,
+                                  color: '#FFFFFF',
+                                  border: [false, false, false, false],
+                                  fillColor: '#002137',
+                              }
+                              
+                          ]
+                      ]
+                  },
+                  layout: 'noBorders',
+                  margin: [10, 10]
+              };
+          },
+          footer :function(currentPage, pageCount, pageSize) {
+            if(currentPage == 1){
+          return {
+              table: {
+                  widths: ['*'],
+                  heights: 40,
+                  body: [
+                      [
+                          {
+                              text: 'Footer content',
+                              alignment: 'right',
+                              margin: [10, 10],
+                              fontSize: 12,
+                              color: '#FFFFFF',
+                              border: [false, false, false, false],
+                              fillColor: '#002137',
+                          }
+                          
+                      ]
+                  ]
+              },
+              layout: 'noBorders',
+              margin: [10, 10]
+                };
+              }
+              
+            },
+
+              content: [
+                // Additional Information
+          {
+                  image: logoDataURL,
+                  width: 100,
+                  alignment: 'right',
+                  margin: [0, 0,0, 0],
+                },
+                {
+        columns: [
+          {
+            width: '*',
+            alignment:'right',
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 100, y2: 0 }],
+            bold:true,
+            margin: [0, 12,0, 0],
+          },
+          {
+            width: 80,
+            text: "IPAMAS",
+            fontSize: 18,
+            bold: true,
+          },
+          {
+            width: '*',
+            alignment:'left',
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 100, y2: 0 }],
+            bold:true,
+            margin: [0, 12,0, 0],
+          }
+            ],
+            // columnGap: 10,
+              margin: [0, 60,0, 50],
+            }
+            ,
+                // {
+              //         text: "Sub titles",
+              //         fontSize: 18,
+              //         bold: true,
+              //         margin: [0, 60,0, 50],
+              //       },
+                    {
+              table: {
+              widths: ['*'], // Adjust the widths as needed
+
+              body: [
+            [{
+                columns: [
+                  // {
+                  //       table: {
+                  //           widths: ['*'],
+                  //           heights:40,
+                  //           body: [
+                  //               [{
+                  //                   border: [false, false, false, false],
+                  //                   text: 'PREPARED \n FOR',
+                  //                   color: '#FFFFFF',
+                  //                   fillColor: '#002137',
+                  //                   margin: [0, 5, 0, 0],
+                  //                   fontSize: 12,
+                  //               }, ],
+                  //           ]
+                  //       },
+                  //       layout: 'noBorders',
+                  //       width: '15%',
+                  //   },
+                    {
+                        table: {
+                            widths: ['*'],
+                            alignment:'center',
+                            body: [
+                                [{
+                                    border: [false, false, false, false],
+                                    text: "COMPREHENSIVE PATENT ANALYSIS REPORT",
+                                    fontSize: 36,
+                                    color: '#0000',
+                                    fillColor: '#FFFFFF',
+                                    bold: true,
+                                    margin: [60, 0,0, 0],
+                                }, ],
+                            ]
+                        },
+                        width: '80%',
+                    },
+
+                ],
+                widths:['20%','80%'],
+                columnGap: 20,
+                fillColor: '#FFFFFF',
+                border: [false, false, false, false],
+                      }]
+                  ]
+              },
+            },
+            // {
+            //     text: "COUNTY OF COUNTY \n COUNTY COUNTY",
+            //     fontSize: 18,
+            //     bold: true,
+            //     margin: [70, 20,0, 20],
+            //   },
+        
+              {
+    style: 'section',
+    table: {
+        widths: ['*', '*', '*','*', '*', '*'], // Adjust the widths as needed
+        heights: 40,
+        alignment: "center",
+        body: [
+            [
+                {
+                    image: logoDataURLThird,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+                {
+                    image: logoDataURLSeven,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+                {
+                    image: logoDataURLSix,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+                {
+                    image: logoDataURLFive,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+                {
+                    image: logoDataURLFour,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+                {
+                    image: logoDataURLThird,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+            ],
+        ],
+    },
+    layout: 'noBorders'
+},
+          { text: summaryText, fontSize: 12, bold: false, margin: [0, 40, 0, 60], },
+          // {
+          //   text: "In-depth Analysis and Strategic Insights",
+          //   fontSize: 18,
+          //   bold: true,
+          //   margin: [0, 20, 0, 20],
+          // },
+          {
+            text: "PREPARED FOR",
+            fontSize: 18,
+            bold: true,
+            margin: [0, 10, 0, 0],
+          },
+          {
+            text: "{{request.user.username}}",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 5, 0, 0],
+          },
+          {
+              text: 'Company Name :' +client_company_name_,
+              fontSize: 14,
+            bold: true,
+            margin: [0, 5, 0, 0],
+            },
+            {
+              text: "Client Contact Info : " +client_contact_info_,
+              fontSize: 14,
+            bold: true,
+            margin: [0, 5, 0, 0],
+            },
+            {
+              text: "Country Filing Destination : " + country_filing_destination_,
+              fontSize: 14,
+            bold: true,
+            margin: [0, 5, 0, 0],
+            },
+            {
+              text: "Country Origin : " + country_origin_,
+              fontSize: 14,
+            bold: true,
+            margin: [0, 5, 0, 0],
+            },
+          {
+            text: "Date: " + currentDate,
+            fontSize: 14,
+            bold: true,
+            margin: [0, 5, 0, 0],
+          },
+          {
+              text: "Confidentiality Notice: The information in this communication is confidential and intended solely for the recipient named above. If you are not the intended recipient, please notify the sender immediately . Any unauthorized use, disclosure, or distribution of this communication is prohibited. Thank you for your attention to this matter.",
+              fontSize: 12,
+              margin: [0, 5, 0, 0],
+            },
+         
+          // {
+          //   text: "Prepared by: IPAMAS Patent Services",
+          //   fontSize: 14,
+          //   bold: true,
+          //   margin: [0, 5, 0, 0],
+          // },
+          {
+            text: "Executive Summary",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          },
+          { text: summaryText, fontSize: 12, bold: false, margin: [0, 20, 0, 0],alignment:'left' },
+          {
+            text: "Introduction",
+            fontSize: 16,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          },
+          {
+            text: "Patent Application Overview:",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 20],
+          },
+          {
+            text: "- Title: " + splitFieldInventionText,
+            fontSize: 12,
+            bold: false,
+            alignment:'left',
+            margin: [0, 4, 0, 0],
+          },
+          {
+            text: "- Abstract: " + abstract,
+            fontSize: 12,
+            bold: false,
+            alignment:'left',
+            margin: [0, 4, 0, 0],
+          }, 
+          {
+            text: "- Field of Invention: " + fieldinventiontext,
+            fontSize: 12,
+            bold: false,
+            alignment:'left',
+            margin: [0, 4, 0, 0],
+          },
+          {
+            text: "- Key Inventors:" + inventortext,
+            fontSize: 12,
+            bold: false,
+            alignment:'left',
+            margin: [0, 4, 0, 0],
+          },
+          {
+            text: "Enhanced IPC Analysis",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text: enhanced_ipc_analysis,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+            alignment:'left',
+          }, {
+            text: "Key IPC Symbols Identified:",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, 
+            [ipcObjectContent],
+          , {
+            text: "Technical Analysis of the Invention",
+            fontSize: 16,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, 
+          {
+            image: logoDataURLFirst,
+            width: 400,
+            alignment: 'center',
+            margin: [0,20,0,20],
+          },{
+            text: "Innovative Components",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text: innovativecomponent,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+            alignment:"left",
+          }, {
+            image: logoDataURLSecond,
+            width: 400,
+            alignment: 'center',
+            margin: [0,20,0,20],
+          }, {
+            text: "Potential Applications:",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          },
+          {
+            text: potentialapplication,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+            alignment:'left'
+          }, {
+            text: "Market Analysis",
+            fontSize: 16,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text: "Market Overview",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text: market_overview,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+          }, {
+            text: "Target Market Segments:",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text: target_market_segments,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+            alignment:'left'
+          }, {
+            text: "Regulatory and Compliance Considerations",
+            fontSize: 16,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text: "Regulatory Landscape:",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text: regulatory_landscape,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+          }, {
+            text: "Compliance Requirements",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text: compliance_requirements,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+            alignment:'left'
+          }, {
+            text: "Intellectual Property Strategy",
+            fontSize: 16,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text: "IP Protection Strategies:",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text:
+              ip_protection_strategies,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+            alignment:'left'
+          },
+          {
+            text: "Licensing Opportunities:",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text:
+              licensing_opportunities,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+          },
+          {
+            text: "Research and Development Insights:",
+            fontSize: 16,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          }, {
+            text:
+              "Future R&D Directions:",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          },
+          {
+            text: futuredirections,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+            alignment:'left'
+          }, {
+            text:
+              "Collaboration Opportunities: ",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          },
+          {
+            text: collaboration_opportunities,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+          }, {
+            text:
+              "Appendices",
+            fontSize: 16,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          },
+          {
+            text:
+              "Glossary of Terms",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          },
+          {
+            text:
+              glossary_of_terms,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+            alignment:'left'
+          },
+          {
+            text:
+              "References and Links:",
+            fontSize: 14,
+            bold: true,
+            margin: [0, 20, 0, 0],
+          },
+          {
+            text:"- " + 
+            reference_and_links,
+            fontSize: 12,
+            bold: false,
+            margin: [0, 20, 0, 0],
+            alignment:'left'
+          }
+          // Table content
+        ],
+        pageMargins: [ 40, 60, 40, 60 ],
+        styles: {
+        section: {
+            fontSize: 9,
+            color: '#FFFFFF',
+            fillColor: '#002137',
+            margin: [0, 15, 0, 5]
+        }
+    },
+    defaultStyle: {
+        alignment: 'center',
+        fillColor:"#d7dfe3",
+    },
+      };
+
+      pdfMake.createPdf(docDefinition).download("Patent&DesignsReport.pdf");
+    }
+
+
+
+
+
+        function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+              }
+            }
+          }
+          return cookieValue;
+        }
+      });
+      </script> 
+
+
+      <script>
+        var hostUrl = "assets/";
+
+      </script>
+
+<link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+<script src={% static "assets/js/scripts.bundle.js" %}></script>
+<!--end::Global Javascript Bundle-->
+<!--begin::Vendors Javascript(used for this page only)-->
+<script src={% static "assets/plugins/custom/fullcalendar/fullcalendar.bundle.js" %}></script>
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<!--end::Vendors Javascript-->
+<!--begin::Custom Javascript(used for this page only)-->
+<script src={% static "assets/js/widgets.bundle.js" %}></script>
+<!--end::Custom Javascript-->
+<!--end::Javascript-->
+
+{% endblock content %}

@@ -1,0 +1,426 @@
+{% extends layout %} {% load i18n %} {% block title %} 
+{% translate "Patent-History" %} {% endblock %} {% block content %}
+
+<!DOCTYPE html>
+<!--
+Author: Keenthemes
+Product Name: Metronic 
+Product Version: 8.2.3
+Purchase: https://1.envato.market/EA4JP
+Website: http://www.keenthemes.com
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+License: For each use you must have a valid license purchased only from above link in order to legally use the theme for your project.
+-->
+<html lang="en">   
+  <!--begin::Head-->
+  <head>
+    <base href="../../" />
+    <title>
+      Patent history
+    </title>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="The most advanced Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free."
+    />
+    <meta
+      name="keywords"
+      content="metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel starter kits, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="Metronic - The World's #1 Selling Bootstrap Admin Template by KeenThemes"
+    />
+    <meta property="og:url" content="https://keenthemes.com/metronic" />
+    <meta property="og:site_name" content="Metronic by Keenthemes" />
+    <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+    <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+    <!--begin::Fonts(mandatory for all pages)-->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"
+    />
+    <!--end::Fonts-->
+    <!--begin::Vendor Stylesheets(used for this page only)-->
+    <link
+      href="assets/plugins/custom/datatables/datatables.bundle.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!--end::Vendor Stylesheets-->
+    <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+    <link
+      href="assets/plugins/global/plugins.bundle.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <!--end::Global Stylesheets Bundle-->
+    <script>
+      // Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Include jQuery UI library -->
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap JS (Popper.js and Bootstrap JS) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+  </head>
+  <!--end::Head-->
+  <!--begin::Body-->
+  <body
+    id="kt_app_body"
+    data-kt-app-layout="dark-sidebar"
+    data-kt-app-header-fixed="true"
+    data-kt-app-sidebar-enabled="true"
+    data-kt-app-sidebar-fixed="true"
+    data-kt-app-sidebar-hoverable="true"
+    data-kt-app-sidebar-push-header="true"
+    data-kt-app-sidebar-push-toolbar="true"
+    data-kt-app-sidebar-push-footer="true"
+    data-kt-app-toolbar-enabled="true"
+    class="app-default"
+  >
+    <!--begin::Theme mode setup on page load-->
+    <script>
+      var defaultThemeMode = "light";
+      var themeMode;
+      if (document.documentElement) {
+        if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+          themeMode =
+            document.documentElement.getAttribute("data-bs-theme-mode");
+        } else {
+          if (localStorage.getItem("data-bs-theme") !== null) {
+            themeMode = localStorage.getItem("data-bs-theme");
+          } else {
+            themeMode = defaultThemeMode;
+          }
+        }
+        if (themeMode === "system") {
+          themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.setAttribute("data-bs-theme", themeMode);
+      }
+    </script>
+
+    <style>
+      span.tag-show {
+        margin-right: 12px;
+      }
+
+      td.sorting_1 {
+        width: 240px;
+      }
+
+      .modal-body {
+        padding: 22px 35px !important;
+      }
+    </style>
+    <!--end::Theme mode setup on page load-->
+    <!--begin::App-->
+
+    <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+      <div id="kt_app_toolbar_container" class="d-flex flex-stack">
+        <div
+          class="page-title d-flex flex-column justify-content-center flex-wrap me-3"
+        >
+          <h1
+            class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0"
+          >
+            Processing History
+          </h1>
+          <ul
+            class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1"
+          >
+            <li class="breadcrumb-item text-muted">
+              <a href="/" class="text-muted text-hover-primary">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item text-muted">Processing History</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="individualDataModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">SCOPES DETAILS</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!-- Content will be inserted here dynamically using jQuery -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--begin::Page-->
+    <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
+      <!--begin::Wrapper-->
+      <div class="flex-column flex-row-fluid" id="kt_app_wrapper">
+        <!--begin::Main-->
+        <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+          <!--begin::Content wrapper-->
+          <div class="d-flex flex-column flex-column-fluid">
+            <!--begin::table-->
+            <div id="kt_app_content" class="app-content flex-column-fluid">
+              <!--begin::Content container-->
+              <div id="kt_app_content_container">
+                <!--begin::Toolbar-->
+                <div class="d-flex flex-wrap flex-stack pb-7">
+                  <!--begin::Title-->
+                  <div class="d-flex flex-wrap align-items-center my-1">
+                    <h3 class="fw-bold me-5 my-1">
+                      Total Entries ({{ patient|length }})
+                    </h3>
+                  </div>
+                  <!--end::Title-->
+                </div>
+                <!--end::Toolbar-->
+                <!--begin::Navbar-->
+                <div class="card mb-8">
+                  <div class="card-body pt-2 pb-0">
+                    <!--begin::Table container-->
+                    <div class="table-responsive">
+                      <!--begin::Table-->
+                      <table
+                        id="kt_project_users_table2"
+                        class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold"
+                      >
+                        <thead class="fs-7 text-gray-500 text-uppercase">
+                          <tr>
+                            <th class="min-w-250px">Scopes</th>
+                            <th class="min-w-100px">CIP Edition</th>
+                            <th class="min-w-50px">CIP Section</th>
+                            <th class="min-w-50px">CIP class</th>
+                            <th class="min-w-50px">CIP Subclass</th>
+                            <th class="min-w-50px">CIP Group</th>
+                            <th class="min-w-50px">CIP Subgroup</th>
+                            <th class="min-w-100px">Description</th>
+                          </tr>
+                        </thead>
+                        <tbody class="fs-6">
+                          {% for j in patient %}
+                          <tr>
+                            <!-- <td>{{ j.Scopes }}</td> -->
+                            <td>
+                              {% if j.Scopes|wordcount > 60 %}
+                              {{j.Scopes|slice:":60" }} ...
+                              <span
+                                style="
+                                  color: #636363;
+                                  font-size: 12px;
+                                  cursor: pointer;
+                                "
+                                onclick="fetchIndividualData('{{ j.id }}')"
+                                >Read more</span
+                              >
+                              {% else %} {{ j.Scopes|safe }}
+                              <!-- Use 'safe' filter to render HTML content -->
+                              {% endif %}
+                            </td>
+
+                            <td>{{ j.cip_Edition }}</td>
+                            <td>{{ j.cip_Section }}</td>
+                            <td>{{ j.cip_class }}</td>
+                            <td>{{ j.cip_ubclass }}</td>
+                            <td>{{ j.cip_Group }}</td>
+                            <td>{{ j.cip_Subgroup }}</td>
+
+                            <td>
+                              {% if j.Description %}
+                              <div class="badge-container">
+                                <script>
+                                  var description = "{{ j.Description }}";
+
+                                  // Remove square brackets and quotes
+                                  description = description
+                                    .replace(/[\[\]']/g, "")
+                                    .replace(/["']/g, "");
+
+                                  // Split description by commas
+                                  var descriptionArray = description.split(",");
+
+                                  // Now descriptionArray contains individual descriptions without square brackets and separated by commas
+                                  var formattedDescription = descriptionArray
+                                    .map(function (item, index) {
+                                      var bgColorClass =
+                                        index % 3 === 0
+                                          ? "badge-light-success text-success"
+                                          : index % 3 === 1
+                                          ? "badge-light-danger text-danger"
+                                          : "badge-light-warning text-warning";
+
+                                      return (
+                                        "<span class='badge fw-bold px-4 py-3 " +
+                                        bgColorClass +
+                                        "'>" +
+                                        item.trim() +
+                                        "</span>"
+                                      );
+                                    })
+                                    .join("");
+
+                                  // Output the formattedDescription
+                                  document.write(formattedDescription);
+                                </script>
+                              </div>
+                              {% endif %}
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                      <!--end::Table-->
+                    </div>
+                    <!--end::Table container-->
+                  </div>
+                </div>
+                <!--end::Navbar-->
+              </div>
+              <!--end::Content container-->
+            </div>
+            <!--end::table-->
+          </div>
+          <!--end::Content wrapper-->
+        </div>
+        <!--end:::Main-->
+      </div>
+      <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+
+    <!--begin::Javascript-->
+    <script>
+      var hostUrl = "assets/";
+    </script>
+    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+    <script src="assets/plugins/global/plugins.bundle.js"></script>
+    <script src="assets/js/scripts.bundle.js"></script>
+    <!--end::Global Javascript Bundle-->
+    <!--begin::Vendors Javascript(used for this page only)-->
+    <script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    <!--end::Vendors Javascript-->
+    <!--begin::Custom Javascript(used for this page only)-->
+    <script src="assets/js/custom/apps/projects/list/list.js"></script>
+    <script src="assets/js/custom/apps/projects/users/users.js"></script>
+    <script src="assets/js/widgets.bundle.js"></script>
+    <script src="assets/js/custom/widgets.js"></script>
+    <script src="assets/js/custom/apps/chat/chat.js"></script>
+    <script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+    <script src="assets/js/custom/utilities/modals/create-app.js"></script>
+    <script src="assets/js/custom/utilities/modals/users-search.js"></script>
+    <script src="assets/js/custom/utilities/modals/new-target.js"></script>
+    <script>
+      const table = document.getElementById("kt_project_users_table2");
+      $(table).DataTable();
+    </script>
+
+    <script>
+      function fetchIndividualData(id) {
+        var apiUrl = "{% url 'history-detail' pk=0 %}".replace("0", id);
+        console.log(apiUrl); // Check if the generated URL is correct
+        $.ajax({
+          url: apiUrl,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            console.log("Data:", data); // Check if data is successfully fetched
+
+            // Display data in a Bootstrap modal
+            showModal(data);
+          },
+          error: function (error) {
+            console.error("Error fetching individual data:", error);
+          },
+        });
+      }
+
+      function showModal(data) {
+        // Assuming you have a modal with the ID 'individualDataModal'
+        var modal = $("#individualDataModal");
+
+        // Extract the desired properties
+        var scopesValue = data["Scopes"];
+        var descriptionValue = data["Description"];
+
+        // Remove square brackets from the "Description" property
+        var descriptionWithoutBrackets = descriptionValue.replace(/\[|\]/g, "");
+
+        // Update modal content with the extracted and modified values
+        modal
+          .find(".modal-body")
+          .html(
+            "<h1 style='white-space: break-spaces; font-size: 14px; line-height: 25px;'>" +
+              scopesValue +
+              "\n" +
+              descriptionWithoutBrackets +
+              "</h1>"
+          );
+
+        // Show the modal
+        modal.modal("show");
+      }
+    </script>
+
+    <!-- <script>
+     function fetchIndividualData(id) {
+    var apiUrl = "{% url 'history-detail' pk=0 %}".replace('0', id);
+    console.log(apiUrl);  // Check if the generated URL is correct
+    $.ajax({
+        url: apiUrl,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            console.log("data show ajay---------------------",data);  // Check if data is successfully fetched
+            // Rest of your code...
+        },
+        error: function (error) {
+            console.error('Error fetching individual data:', error);
+        }
+    });
+}
+
+  </script> -->
+
+    <!--end::Custom Javascript-->
+    <!--end::Javascript-->
+  </body>
+  <!--end::Body-->
+</html>
+
+{% endblock %}

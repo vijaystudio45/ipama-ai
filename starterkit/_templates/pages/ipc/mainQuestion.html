@@ -1,0 +1,27 @@
+{% extends layout %} {% load i18n %} {% block title %}{% translate "Questions"%}{% endblock %} {% block content %}
+
+<div class="main-sections-question">
+  <div class="second-main-question">
+    <p>
+      To best serve your needs, IPAMAS begins with an initial screening
+      question: "Do you have a comprehensive document describing your project or
+      invention?"
+    </p>
+    <div class="button-questions">
+      <a href="#"
+        class="fw-bold btn btn-lg btn-primary w-100 m-5"
+      >
+        Yes
+      </a>
+      <a
+      href="/question-option"
+        class="fw-bold btn btn-lg btn-primary w-100 m-5"
+      >
+        No
+      </a>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}

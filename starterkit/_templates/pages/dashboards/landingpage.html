@@ -1,0 +1,282 @@
+ <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Home</title>
+
+  
+  </head>
+
+
+  <body style="font-family: poppins;">
+    <div class="main-section-for-image">
+    
+    <!-- Section 1 -->
+    <!-- <section class="w-full px-8 text-gray-700"> -->
+
+            <img
+              src="assets/media/landingpng/global-image-10.svg"
+              alt="Your Image Description"
+              class="dashbard-main-image-ten"
+            />
+            <img
+            src="assets/media/landingpng/global-image-9.svg"
+            alt="Your Image Description"
+            class="dashbard-main-image-nine"
+          />
+
+            <img
+            src="assets/media/landingpng/global-image-8.svg"
+            alt="Your Image Description"
+            class="dashbard-main-image-eight"
+          />
+              <img
+              src="assets/media/landingpng/global-image-7.svg"
+              alt="Your Image Description"
+              class="dashbard-main-image-seven"
+            />
+
+              <img
+              src="assets/media/landingpng/global-image-6.svg"
+              alt="Your Image Description"
+              class="dashbard-main-image-six"
+            />
+
+              <img
+              src="assets/media/landingpng/global-image-5.svg"
+              alt="Your Image Description"
+              class="dashbard-main-image-five"
+            />
+
+              <img
+              src="assets/media/landingpng/global-image-13.svg"
+              alt="Your Image Description"
+              class="dashbard-main-image-three"
+            />
+
+            <img
+            src="assets/media/landingpng/global-image-11.svg"
+            alt="Your Image Description"
+            class="dashbard-main-image-eleven"
+          />
+
+
+          <img
+          src="assets/media/landingpng/global-image-12.svg"
+          alt="Your Image Description"
+          class="dashbard-main-image-tweleve"
+        />
+
+
+            <img
+            src="assets/media/landingpng/global-image-1.svg"
+            alt="Your Image Description"
+            class="dashbard-main-image-global dashbard-respon"
+            />
+
+      <div
+        class="container flex flex-col flex-wrap items-center justify-between md:py-3 mx-auto py-0 md:flex-row max-w-7xl section-nav-home "
+      >
+        <div class="relative flex flex-col md:flex-row logo-sections">
+          <a
+            href="#_"
+            class="flex items-center mb-5 font-medium text-gray-900 lg:w-auto lg:items-center lg:justify-center md:mb-0"
+          >
+            <span
+              class="logo-content"
+              >IPAMAS
+          </a>
+        </div>
+
+
+
+        <div class="inline-flex items-center space-x-6 lg:justify-end navbar-content-link">
+           <nav
+            class="flex flex-wrap items-center mb-5 text-base md:mb-0 md:pl-8  md:border-gray-200"
+          >
+
+
+            <a
+              href="#_"
+              class="font-medium leading-6 text-white hover:text-teal-400 content-navbar"
+              >Home</a
+            >
+            <a
+              href="#_"
+              class="font-medium leading-6 text-white hover:text-teal-400 content-navbar"
+              >About Us</a
+            >
+            <a
+              href="#_"
+              class="font-medium leading-6 text-white hover:text-teal-400 content-navbar"
+              >Tech</a
+            >
+            <a
+              href="#_"
+              class="font-medium leading-6 text-white hover:text-teal-400 content-navbar"
+              >API's</a
+            >
+            <a
+            href="#_"
+            class="font-medium leading-6 text-white hover:text-teal-400 content-navbar"
+            >Dacting</a
+          >
+          {% if user.is_authenticated %}
+          <a
+          href="{% url 'auth:logout' %}"
+          class="font-medium leading-6 text-white hover:text-teal-400 content-navbar"
+          >Logout</a
+          >
+
+          <a
+          href="{% url 'dashboards:index' %}"
+          class="font-medium leading-6 text-white hover:text-teal-400 content-navbar"
+          >Dashboard</a
+          >
+
+          {% else %}
+          <a
+          href="{% url 'auth:signin' %}"
+          class="font-medium leading-6 text-white hover:text-teal-400 content-navbar"
+          >Login</a
+          >
+          <a
+          href="{% url 'auth:signup' %}"
+          class="font-medium leading-6 text-white hover:text-teal-400 content-navbar"
+          >Signup</a
+          >
+          {% endif %}
+            <a
+            href="#"
+            class="read-more-button hover:text-teal-400"
+          >
+            Contact Us
+          </a>
+          </nav>
+         
+        </div>
+        <i class="fa fa-bars main-toog" id="mobileNavToggle"></i>
+      </div>
+    <!-- </section> -->
+
+    <!-- Section 2 -->
+    <!-- <section class="px-2 md:px-0"> -->
+            <div class="display-content-dashboard">
+              <h1 class="image-content-first-heading">
+                  TECH
+              </h1>
+              <h1 class="image-content-second-heading">
+                  SERVICES
+              </h1>
+              <p class="image-content-paragraph ">
+                  Technology is the application of conceptual knowledge for achieving practical goals especially in a reproducible way. the word technology can also mean the products resulting from such effects, including both tangible tools such as utensils or machnines, and intangible ones such as software.
+              </p>
+              
+              <button class="read-more-button">
+                  Read More
+              </button>
+        </div>
+
+        <div id="toggleDiv" class="show-toogle-toogle">
+       <div class="mytogglediv">
+        <div class="closediv">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+          
+        </div>
+        <ul>
+          <li class="my-2">Home</li>
+          <li class="my-2">About Us</li>
+          <li class="my-2">Tech</li>
+          <li class="my-2">API's</li>
+          <li class="my-2">Dacting</li>
+          <li class="my-2">Login</li>
+          <li class="my-2">Signup</li>
+          <li class="my-2">Logout</li>
+          <li class="my-2">Dashboard</li>
+          <li class="my-2"> Contact Us</li>
+        </ul>
+       </div>
+
+        </div>
+   
+    <!-- </section> -->
+</div>
+      <!-- Section 3 -->
+<section class="w-full main-third-section">
+   <div class="show-image-content-first-section inline md:flex">
+    <div class="fist-image-content">
+        <img
+        src="assets/media/landingpng/image-1.png"
+        alt="Your Image Description"
+        class="image-laptop-show"
+      />
+
+    </div>
+    <div class="fist-content-content">
+        <div class="fist-content-content-why">
+        <h1 class="text-white heading-images-content">
+            Why <span class="heading-color-set"> IPAMAS?</span>
+        </h1>
+       
+        <p class="text-white image-paragraph">
+            Technology APIs, or Application Programming Interfaces, serve as vital conduits for communication between different software applications. These interfaces enable seamless interaction, allowing one software system to access and utilize the functionalities of another
+        </p>
+        <button class="read-more-button">
+            Read More
+        </button>
+    </div>
+    </div>
+   </div>
+
+    
+   <div class="show-image-content-first-section">
+   
+    <div class="Seoncd-content-content">
+        <div class="Seoncd-content-content-api">
+        <h1 class="text-white heading-images-content">
+             
+             API's <span class="heading-color-set">Solutions</span>
+        </h1>
+       
+        <p class="text-white image-paragraph">
+            APIs act as bridges, facilitating the exchange of data and commands, thereby enhancing the interoperability and integration of diverse technologies. They play a pivotal role in modern technology ecosystems, fostering collaboration, innovation, and the development of interconnected and efficient software solutions.
+        </p>
+        <button class="read-more-button">
+            Read More
+        </button>
+    </div>
+    </div>
+
+    <div class="Second-image-content">
+        <img
+        src="assets/media/landingpng/image-2.png"
+        alt="Your Image Description"
+        class="image-dr-show"
+      />
+    </div>
+   </div>
+  </section>
+
+  <section class="w-full main-footer-section">
+   <h1 class="footer-heading-content">
+    <!-- © 2024 Impas. All Rights Reserved. -->
+    © 2024 IPAMAS. All Rights Reserved
+   </h1>
+  </section>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="assets/js/code.js"></script>
+  </body>
+</html>

@@ -1,0 +1,514 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Upload-and-Convert-File" %}{% endblock %}
+
+{% block content %}
+
+
+    <script>
+      var defaultThemeMode = "light";
+      var themeMode;
+      if (document.documentElement) {
+        if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+          themeMode =
+            document.documentElement.getAttribute("data-bs-theme-mode");
+        } else {
+          if (localStorage.getItem("data-bs-theme") !== null) {
+            themeMode = localStorage.getItem("data-bs-theme");
+          } else {
+            themeMode = defaultThemeMode;
+          }
+        }
+        if (themeMode === "system") {
+          themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.setAttribute("data-bs-theme", themeMode);
+      }
+    </script>
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.upload-files-container {
+	background-color: #f7fff7;
+	width: 420px;
+	padding: 30px 60px;
+	border-radius: 40px;
+	display: flex;
+   	align-items: center;
+   	justify-content: center;
+	flex-direction: column;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 20px, rgba(0, 0, 0, 0.28) 0px 6px 6px;
+}
+.drag-file-area {
+	border: 2px dashed#1b84ff;
+	border-radius: 40px;
+	margin: 10px 0 15px;
+	padding: 30px 50px;
+	width: 350px;
+	text-align: center;
+}
+.drag-file-area .upload-icon {
+	font-size: 50px;
+}
+.drag-file-area h3 {
+	font-size: 26px;
+	margin: 15px 0;
+}
+.drag-file-area label {
+	font-size: 19px;
+}
+.drag-file-area label .browse-files-text {
+	color: #1b84ff;
+	font-weight: bolder;
+	cursor: pointer;
+}
+.browse-files span {
+    position: relative;
+    top: -25px;
+    right: 20%;
+}
+.default-file-input {
+	opacity: 0;
+}
+.cannot-upload-message {
+	background-color: #ffc6c4;
+	font-size: 17px;
+	display: flex;
+	align-items: center;
+	margin: 5px 0;
+	padding: 5px 10px 5px 30px;
+	border-radius: 5px;
+	color: #BB0000;
+	display: none;
+}
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+.cannot-upload-message span, .upload-button-icon {
+	padding-right: 10px;
+}
+.cannot-upload-message span:last-child {
+	padding-left: 20px;
+	cursor: pointer;
+}
+.file-block {
+	color: #f7fff7;
+	background-color: #1b84ff;
+  	transition: all 1s;
+	width: 390px;
+	position: relative;
+	display: none;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin: 10px 0 15px;
+	padding: 10px 20px;
+	border-radius: 25px;
+	cursor: pointer;
+}
+.file-info {
+	display: flex;
+	align-items: center;
+	font-size: 15px;
+}
+.file-icon {
+	margin-right: 10px;
+}
+.file-name, .file-size {
+	padding: 0 3px;
+}
+.remove-file-icon {
+	cursor: pointer;
+}
+.progress-bar {
+	display: flex;
+	position: absolute;
+	bottom: 0;
+	left: 4.5%;
+	width: 0;
+	height: 5px;
+	border-radius: 25px;
+	background-color: #4BB543;
+}
+.upload-button {
+	font-family: 'Montserrat';
+	background-color: #1b84ff;
+	color: #f7fff7;
+	display: flex;
+	align-items: center;
+	font-size: 18px;
+	border: none;
+	border-radius: 20px;
+	margin: 10px;
+	padding: 7.5px 50px;
+	cursor: pointer;
+}
+h1.selectedmessage {
+    font-size: 14px;
+    color: #012f64;
+}
+
+
+
+/* loader  */
+
+
+.loadershow {
+    position: fixed;
+    top: 0;
+    left: 265px;
+    width: 86%;
+    height: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+
+  .loadershow p {
+    margin-top: 10px;
+    color: #333;
+    font-size: 20px;
+}
+
+.hourglass {
+	border: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+.hourglass {
+	--bg: #e3e4e8;
+	--fg: #2e3138;
+	--primary: #255ff4;
+	font-size: calc(16px + (24 - 16) * (100vw - 320px) / (1280 - 320));
+}
+.hourglass {
+	background: var(--bg);
+	display: grid;
+	font: 1em/1.5 sans-serif;
+	height: 100vh;
+	place-items: center;
+}
+
+.hourglass, .hourglass:before, .hourglass:after {
+	animation-duration: 4s;
+	animation-iteration-count: infinite;
+}
+.hourglass {
+	--polygonH: polygon(0% 0%,100% 0%,100% 5.55%,95% 5.55%,95% 28%,60% 46%,60% 54%,95% 72%,95% 94.45%,100% 94.45%,100% 100%,0% 100%,0% 94.45%,5% 94.45%,5% 72%,40% 54%,40% 46%,5% 28%,5% 5.55%,0% 5.55%);
+	animation-name: flip;
+	animation-timing-function: ease-in-out;
+	background-image: linear-gradient(var(--primary) 0.5em,#737a8c55 0.5em 8.5em,var(--primary) 8.5em);
+	clip-path: var(--polygonH);
+	-webkit-clip-path: var(--polygonH);
+	overflow: hidden;
+	position: relative;
+	width: 5em;
+	height: 9em;
+	z-index: 0;
+}
+.hourglass:before, .hourglass:after {
+	animation-timing-function: linear;
+	content: "";
+	display: block;
+	position: absolute;
+}
+.hourglass:before {
+	--polygonB1: polygon(0% 0%,100% 0%,100% 24%,50% 47%,50% 47%,50% 47%,50% 47%,50% 47%,50% 47%,50% 47%,50% 47%,0% 24%);
+	--polygonB2: polygon(0% 4%,100% 4%,100% 24%,55% 45%,55% 100%,55% 100%,55% 100%,45% 100%,45% 100%,45% 100%,45% 45%,0% 24%);
+	--polygonB3: polygon(0% 24%,100% 24%,100% 24%,55% 45%,55% 80%,100% 100%,100% 100%,0% 100%,0% 100%,45% 80%,45% 45%,0% 24%);
+	--polygonB4: polygon(45% 45%,55% 45%,55% 45%,55% 45%,55% 58%,100% 76%,100% 100%,0% 100%,0% 76%,45% 58%,45% 45%,45% 45%);
+	--polygonB5: polygon(50% 53%,50% 53%,50% 53%,50% 53%,50% 53%,100% 76%,100% 100%,0% 100%,0% 76%,50% 53%,50% 53%,50% 53%);
+	animation-name: fill;
+	background-color: var(--fg);
+	background-size: 100% 3.6em;
+	clip-path: var(--polygonB1);
+	-webkit-clip-path: var(--polygonB1);
+	top: 0.5em;
+	left: 0.5em;
+	width: 4em;
+	height: 8em;
+	z-index: 1;
+}
+.hourglass:after {
+	animation-name: glare;
+	background:
+		linear-gradient(90deg,#0000 0.5em,#0003 0.5em 1.5em,#0000 1.5em 3.5em,#fff3 3.5em 4.5em,#fff0 4.5em 6.5em,#0003 6.5em 7.5em,#0000 7.5em) 0 0 / 100% 0.5em,
+		linear-gradient(90deg,#0000 0.75em,#0003 0.75em 1.25em,#0000 1.25em 3.75em,#fff3 3.75em 4.25em,#fff0 4.25em 6.75em,#0003 6.75em 7.25em,#0000 7.25em) 0 0.5em / 100% 8em,
+		linear-gradient(90deg,#0000 0.5em,#0003 0.5em 1.5em,#0000 1.5em 3.5em,#fff3 3.5em 4.5em,#fff0 4.5em 6.5em,#0003 6.5em 7.5em,#0000 7.5em) 0 100% / 100% 0.5em;
+	background-repeat: repeat-x;
+	top: 0;
+	left: -3em;
+	width: 200%;
+	height: 100%;
+	z-index: 2;
+}
+/* Animations */
+@keyframes fill {
+	from {
+		clip-path: var(--polygonB1);
+		-webkit-clip-path: var(--polygonB1);
+	}
+	10% {
+		clip-path: var(--polygonB2);
+		-webkit-clip-path: var(--polygonB2);
+	}
+	45% {
+		clip-path: var(--polygonB3);
+		-webkit-clip-path: var(--polygonB3);
+	}
+	80% {
+		clip-path: var(--polygonB4);
+		-webkit-clip-path: var(--polygonB4);
+	}
+	85%, to {
+		clip-path: var(--polygonB5);
+		-webkit-clip-path: var(--polygonB5);
+	}
+}
+@keyframes glare {
+	from, 90% {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(3em);
+	}
+}
+@keyframes flip {
+	from, 90% {
+		transform: rotate(0);
+	}
+	to {
+		transform: rotate(180deg);
+	}
+}
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #17181c;
+		--fg: #c7cad1;
+	}
+}
+  
+
+</style>
+
+
+<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+  <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+
+    <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+      <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Upload and Convert File
+      </h1>
+      <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+        <li class="breadcrumb-item text-muted">
+          <a href="/" class="text-muted text-hover-primary">Dashboard / </a>
+        </li>
+        <li class="breadcrumb-item text-muted">Upload and Convert File</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+       <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+            <!--begin::Content wrapper-->
+            <div class="d-flex flex-column flex-column-fluid">
+              <!--begin::Toolbar-->
+              <div id="kt_app_toolbar" class="app-toolbar pt-5">
+                <!--begin::Toolbar container-->
+                <div
+                  id="kt_app_toolbar_container"
+                  class="app-container container-fluid d-flex align-items-stretch"
+                >
+                </div>
+                <!--end::Toolbar container-->
+              </div>
+              <!--end::Toolbar-->
+              <!--begin::Content-->
+              <div id="kt_app_content" class="app-content flex-column-fluid">
+                <div class="w-lg-500px">
+                  
+                  <div id="kt_app_content_container" class="app-container container-fluid">
+                    <form class="form-container" enctype='multipart/form-data' id="uploadForm">
+                      <div class="upload-files-container">
+                        <div class="drag-file-area">
+                          <span class="material-icons-outlined upload-icon">file_upload</span>
+                          <h3 class="dynamic-message">Drag & drop any file here</h3>
+                          <label class="label">
+                            <span class="browse-files">
+                              <input type="file" class="default-file-input" id="fileInput" />
+                              <span class="browse-files-text">browse file</span>
+                              <span>from device</span>
+                            </span>
+                          </label>
+                    <h1 class="selectedmessage" id="selectedFileName"></h1>
+                        </div>
+                                              
+                        <button type="button" class="upload-button" id="uploadBtn"> Upload </button>
+                      </div>
+                    </form>
+
+                   
+        
+<div class="loadershow" id="fullScreenLoader" style="display: none;">
+<div  class="hourglass"></div>
+<p>Loading....</p>
+</div>
+
+
+                   
+                  
+                    <!-- Display the selected file name within an h1 tag -->
+                  </div>
+                <!--end::Content container-->
+              </div>
+            </div>
+
+              <!--end::Content-->
+            </div>
+
+          </div>
+
+    <!--Scrolltop-->
+    <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+      <i class="ki-duotone ki-arrow-up">
+        <span class="path1"></span>
+        <span class="path2"></span>
+      </i>
+    </div>
+    <!--Scrolltop-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <script>
+      $(document).ready(function () {
+        var selectedFile = null;
+    
+        $("#fileInput").change(function () {
+          var fileInput = $("#fileInput")[0];
+          selectedFile = fileInput.files[0];
+          updateSelectedFileInfo();
+        });
+    
+        $("#uploadBtn").click(function () {
+          if (selectedFile) {
+            var formData = new FormData();
+            formData.append("file", selectedFile);
+            var csrftoken = getCookie('csrftoken');
+    
+            // Show the full-screen loader
+            $("#fullScreenLoader").show();
+    
+            $.ajax({
+              type: "POST",
+              url: "{% url 'upload-and-convert' %}",
+              data: formData,
+              contentType: false,
+              processData: false,
+              beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+              },
+              success: function (response) {
+                // Hide the full-screen loader
+                $("#fullScreenLoader").hide();
+    
+                // Display success message for file upload using SweetAlert
+                Swal.fire({
+                  icon: 'success',
+                  title: 'File Uploaded Successfully',
+                  text: 'The file has been uploaded successfully.',
+                  confirmButtonText: 'OK',
+                });
+                console.log(response);
+              },
+              error: function (error) {
+                // Hide the full-screen loader
+                $("#fullScreenLoader").hide();
+    
+                // Display error message using SweetAlert
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'An error occurred while processing the file. Please try again.',
+                  confirmButtonText: 'OK',
+                });
+                console.error("Error:", error);
+              }
+            });
+          } else {
+            // Display error message for no file selected using SweetAlert
+            Swal.fire({
+              icon: 'error',
+              title: 'No File Selected',
+              text: 'Please select a file first.',
+              confirmButtonText: 'OK',
+            });
+          }
+        });
+    
+        function updateSelectedFileInfo() {
+          if (selectedFile) {
+            $("#selectedFileName").text("Selected File: " + selectedFile.name);
+          } else {
+            $("#selectedFileName").text("");
+          }
+        }
+    
+        function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+              }
+            }
+          }
+          return cookieValue;
+        }
+      });
+    </script>
+    
+    
+    
+    
+
+    <script>
+      var hostUrl = "assets/";
+    </script>
+     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <script src={% static "assets/js/scripts.bundle.js" %}></script>
+    <!--end::Global Javascript Bundle-->
+    <!--begin::Vendors Javascript(used for this page only)-->
+    <script src={% static "assets/plugins/custom/fullcalendar/fullcalendar.bundle.js" %}></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <!--end::Vendors Javascript-->
+    <!--begin::Custom Javascript(used for this page only)-->
+    <script src={% static "assets/js/widgets.bundle.js" %}></script>
+    <!--end::Custom Javascript-->
+    <!--end::Javascript-->
+
+    {% endblock content %}
+  
+

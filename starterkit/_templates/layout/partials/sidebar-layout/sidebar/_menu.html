@@ -1,0 +1,1046 @@
+<!--begin::sidebar menu-->
+<div class="app-sidebar-menu overflow-hidden flex-column-fluid">
+  <!--begin::Menu wrapper-->
+  <div
+    id="kt_app_sidebar_menu_wrapper"
+    class="app-sidebar-wrapper hover-scroll-overlay-y my-5"
+    data-kt-scroll="true"
+    data-kt-scroll-activate="true"
+    data-kt-scroll-height="auto"
+    data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
+    data-kt-scroll-wrappers="#kt_app_sidebar_menu"
+    data-kt-scroll-offset="5px"
+    data-kt-scroll-save-state="true"
+  >
+    <!--begin::Menu-->
+    <div
+      class="menu menu-column menu-rounded menu-sub-indention px-3"
+      id="#kt_app_sidebar_menu"
+      data-kt-menu="true"
+      data-kt-menu-expand="false"
+    >
+
+
+      <!--begin:Menu item-->
+      {% if request.user.is_superuser %}
+      <div
+        data-kt-menu-trigger="click"
+        class="menu-item menu-accordion {% if request.path == '/' %}show{% endif %}"
+      >
+        <!--begin:Menu link-->
+        <span class="menu-link">
+          <span class="menu-icon">{% getIcon 'element-11' 'fs-2' %}</span>
+          <span class="menu-title">Dashboard</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion">
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link {% if request.path == '/' %}active{% endif %}" href="/">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Overview</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Alerts and Notifications</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title"
+                >Quick Access Widgets (e.g., Recent Submissions, Calendar)</span
+              >
+            </a>
+            <!--end:Menu link-->
+          </div>
+        </div>
+        <!--end:Menu sub-->
+      </div>
+      {% endif %}
+    
+
+      <!--end:Menu item-->
+
+      <!-- --------------- new side content start  ------------------------ -->
+      <div data-kt-menu-trigger="click" class="menu-item">
+        <!--begin:Menu link-->
+        <a class="menu-link {% if request.path == '/question-answer/' %}active{% endif %}" href="{% url 'question-answer' %}">
+            <span class="menu-icon">{% getIcon 'address-book' 'fs-2' %}</span>
+            <span class="menu-title">
+              Invention Scope Generator
+            </span>
+        </a>
+        <!--end:Menu link-->
+    </div>
+      <!-- --------------- new side content end  ------------------------ -->
+
+
+      <!--begin:Menu item-->
+      <div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if request.path == '/create_patent/' or request.path == '/upload-history/' %}show{% endif %}">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+          <span class="menu-icon">{% getIcon 'address-book' 'fs-2' %}</span>
+          <span class="menu-title">
+            <!-- Patent Management -->
+            Patent Innovation Suite
+          </span>
+          <span class="menu-arrow"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion">
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link {% if request.path == '/create_patent/' %}active{% endif %}" href="{% url 'create_patent' %}">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">
+                <!-- New Patent Submission -->
+                Invention Scope Generator
+              </span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            {% if request.user.is_superuser %}
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Patent Queue</span>
+            </a>
+            <!--end:Menu link-->
+            {% endif %}
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link {% if request.path == '/upload-history/' %}active{% endif %}" href="{% url 'upload_history' %}">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">
+                <!-- Processing History -->
+                Submission History
+              </span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          {% if request.user.is_superuser %}
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Patent Portfolio Management</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          {% endif %}
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          {% if request.user.is_superuser %}
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Client-Patent Linking</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          {% endif %}
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          {% if request.user.is_superuser %}
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title"
+                >Jurisdiction-Specific Submissions (Dropdown Menu for Different
+                Countries)</span
+              >
+            </a>
+            <!--end:Menu link-->
+          </div>
+          {% endif %}
+          <!--end:Menu item-->
+        </div>
+        <!--end:Menu sub-->
+      </div>
+
+	    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if request.path == '/upload-and-convert/' or request.path == '/pdf-upload/' %}show{% endif %}">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+          <span class="menu-icon">{% getIcon 'address-book' 'fs-2' %}</span>
+          <span class="menu-title">
+            <!-- Upload -->
+            Comprehensive Analysis Upload
+          </span>
+          <span class="menu-arrow"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion">
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link {% if request.path == '/upload-and-convert/' %}active{% endif %}" href="{% url 'upload-and-convert' %}">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">
+                <!-- Upload Files -->
+                Draft and File
+              </span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+        </div>
+        <!--end:Menu sub-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion">
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link {% if request.path == '/pdf-upload/' %}active{% endif %}" href="{% url 'pdf-upload' %}">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">
+                <!-- Upload PDF File -->
+                PDF IP Extractor
+              </span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+        </div>
+        <!--end:Menu sub-->
+      </div>
+      <!--end:Menu item-->
+      <!--begin:Menu item-->
+      {% if request.user.is_superuser %}
+      <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+          <span class="menu-icon">{% getIcon 'element-plus' 'fs-2' %}</span>
+          <span class="menu-title">IPC Symbol Matcher</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion">
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Automatic Matching</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Match Review & Editing</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Symbol Lookup and Analysis</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Matching Reports by Jurisdiction</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+        </div>
+        <!--end:Menu sub-->
+      </div>
+      {% endif %}
+      <!--end:Menu item-->
+      <!--begin:Menu item-->
+      {% if request.user.is_superuser %}
+      <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+          <span class="menu-icon">{% getIcon 'user' 'fs-2' %}</span>
+          <span class="menu-title">Legal Research & Resources</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion">
+          <!--begin:Menu item-->
+          <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+            <!--begin:Menu link-->
+            <span class="menu-link">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title"
+                >Law Library (with Jurisdiction Filters)</span
+              >
+              <span class="menu-arrow"></span>
+            </span>
+            <!--end:Menu link-->
+            <!--begin:Menu sub-->
+            <div class="menu-sub menu-sub-accordion menu-active-bg">
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">Case Law and Precedents</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">Legal News and Updates</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">Patent Trends and Analytics</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+            </div>
+            <!--end:Menu sub-->
+          </div>
+        </div>
+        <!--end:Menu sub-->
+      </div>
+      {% endif %}
+
+      {% if request.user.is_superuser %}
+      <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+          <span class="menu-icon">{% getIcon 'abstract-39' 'fs-2' %}</span>
+          <span class="menu-title"> Client & Case Management</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion">
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Client Profiles and Portfolios</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title"> Case Tracking and Management</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Communication Logs</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Document Sharing and Collaboration</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+        </div>
+        <!--end:Menu sub-->
+      </div>
+      {% endif %}
+      <!--end:Menu item-->
+      <!--begin:Menu item-->
+      {% if request.user.is_superuser %}
+      <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+          <span class="menu-icon">{% getIcon 'bank' 'fs-2' %}</span>
+          <span class="menu-title">Billing & Finance</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion menu-active-bg">
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Time Tracking and Billing Hours </span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title"
+                >Invoicing (with Multi-Currency Support)</span
+              >
+            </a>
+            <!--end:Menu link-->
+          </div>
+
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title"
+                >Financial Reporting (Customizable for Jurisdictions)</span
+              >
+            </a>
+            <!--end:Menu link-->
+          </div>
+
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Budgeting and Forecasting</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+
+          <!--end:Menu item-->
+        </div>
+        <!--end:Menu sub-->
+      </div>
+      {% endif %}
+      <!--end:Menu item-->
+      <!--begin:Menu item-->
+      {% if request.user.is_superuser %}
+      <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+          <span class="menu-icon">{% getIcon 'chart-pie-3' 'fs-2' %}</span>
+          <span class="menu-title">Jurisdictions</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion menu-active-bg">
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title"
+                >Country-Specific Laws and Regulations</span
+              >
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Jurisdictional Filing Procedures</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title"> Localized Market Insights</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Compliance Checklists by Country</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+        </div>
+        <!--end:Menu sub-->
+      </div>
+      {% endif %}
+      <!--end:Menu item-->
+
+      <!--begin:Menu item-->
+      {% if request.user.is_superuser %}
+      <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+          <span class="menu-icon">{% getIcon 'bucket' 'fs-2' %}</span>
+          <span class="menu-title">Workspace Tools</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion menu-active-bg">
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Email Integration</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Document Management</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title"> Integrated Calendar</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Meeting Scheduler</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Task Manager</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+
+          <!--end:Menu item-->
+        </div>
+        <!--end:Menu sub-->
+      </div>
+      {% endif %}
+      <!--end:Menu item-->
+      <!--begin:Menu item-->
+      {% if request.user.is_superuser %}
+      <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+          <span class="menu-icon">{% getIcon 'call' 'fs-2' %}</span>
+          <span class="menu-title">Collaboration & Teamwork</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion">
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Internal Messaging System</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title"
+                >Shared Workspaces (with Access Controls)</span
+              >
+            </a>
+            <!--end:Menu link-->
+          </div>
+
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Team Analytics</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <div class="menu-item">
+            <!--begin:Menu link-->
+            <a class="menu-link" href="#">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Collaborative Tools</span>
+            </a>
+            <!--end:Menu link-->
+          </div>
+          <!--end:Menu item-->
+        </div>
+        <!--end:Menu sub-->
+      </div>
+      {% endif %}
+      <!--end:Menu item-->
+      <!--begin:Menu item-->
+      {% if request.user.is_superuser %}
+      <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+          <span class="menu-icon">{% getIcon 'color-swatch' 'fs-2' %}</span>
+          <span class="menu-title">User & Access Management</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-accordion">
+          <!--begin:Menu item-->
+          <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+            <!--begin:Menu link-->
+            <span class="menu-link">
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">User Profiles</span>
+              <span class="menu-arrow"></span>
+            </span>
+            <!--end:Menu link-->
+            <!--begin:Menu sub-->
+            <div class="menu-sub menu-sub-accordion">
+              <!--begin:Menu item-->
+              <div
+                data-kt-menu-trigger="click"
+                class="menu-item menu-accordion"
+              >
+                <!--begin:Menu link-->
+                <span class="menu-link">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title"> Role-Based Access Control</span>
+                  <span class="menu-arrow"></span>
+                </span>
+                <!--end:Menu link-->
+                <!--begin:Menu sub-->
+                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                  <!--begin:Menu item-->
+                  <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="#">
+                      <span class="menu-bullet">
+                        <span class="bullet bullet-dot"></span>
+                      </span>
+                      <span class="menu-title">Activity Logs</span>
+                    </a>
+                    <!--end:Menu link-->
+                  </div>
+                  <!--end:Menu item-->
+                  <!--begin:Menu item-->
+                  <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="#">
+                      <span class="menu-bullet">
+                        <span class="bullet bullet-dot"></span>
+                      </span>
+                      <span class="menu-title">Compliance Features</span>
+                    </a>
+                    <!--end:Menu link-->
+                  </div>
+                </div>
+                <!--end:Menu sub-->
+              </div>
+            </div>
+            <!--end:Menu sub-->
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+        
+          <!--end:Menu item-->
+        </div>
+        {% endif %}
+        {% if request.user.is_superuser %}
+		<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+            <!--begin:Menu link-->
+            <span class="menu-link">
+              <span class="menu-icon">{% getIcon 'element-7' 'fs-2' %}</span>
+              <span class="menu-title">Settings & Customization</span>
+              <span class="menu-arrow"></span>
+            </span>
+            <!--end:Menu link-->
+            <!--begin:Menu sub-->
+            <div class="menu-sub menu-sub-accordion">
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">System Configurations</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">Notification Settings</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">Industry-Specific Updates</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title"
+                    >API and Third-Party Integrations</span
+                  >
+                </a>
+                <!--end:Menu link-->
+              </div>
+            </div>
+            <!--end:Menu sub-->
+          </div>
+
+          <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+            <!--begin:Menu link-->
+            <span class="menu-link">
+              <span class="menu-icon">{% getIcon 'abstract-41' 'fs-2' %}</span>
+              <span class="menu-title"> Support & Training</span>
+              <span class="menu-arrow"></span>
+            </span>
+            <!--end:Menu link-->
+            <!--begin:Menu sub-->
+            <div class="menu-sub menu-sub-accordion">
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title"> Interactive Help Center</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">Support Ticket System</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">Training Modules</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">User Feedback</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+            </div>
+          </div>
+          <!--end:Menu item-->
+          <!--begin:Menu item-->
+          <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+            <!--begin:Menu link-->
+            <span class="menu-link">
+              <span class="menu-icon">{% getIcon 'basket' 'fs-2' %}</span>
+              <span class="menu-title">Legal & Patent Market News</span>
+              <span class="menu-arrow"></span>
+            </span>
+            <!--end:Menu link-->
+            <!--begin:Menu sub-->
+            <div class="menu-sub menu-sub-accordion">
+              <!--begin:Menu item-->
+              <div
+                data-kt-menu-trigger="click"
+                class="menu-item menu-accordion"
+              >
+                <!--begin:Menu link-->
+                <span class="menu-link">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">
+                    Latest Industry News (with Jurisdiction Filter)</span
+                  >
+                  <span class="menu-arrow"></span>
+                </span>
+                <!--end:Menu link-->
+                <!--begin:Menu sub-->
+                <div class="menu-sub menu-sub-accordion">
+                  <!--begin:Menu item-->
+                  <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="#">
+                      <span class="menu-bullet">
+                        <span class="bullet bullet-dot"></span>
+                      </span>
+                      <span class="menu-title">Regulatory Updates</span>
+                    </a>
+                    <!--end:Menu link-->
+                  </div>
+                  <!--end:Menu item-->
+                  <!--begin:Menu item-->
+                  <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="#">
+                      <span class="menu-bullet">
+                        <span class="bullet bullet-dot"></span>
+                      </span>
+                      <span class="menu-title">Market Trends</span>
+                    </a>
+                    <!--end:Menu link-->
+                  </div>
+                  <!--end:Menu item-->
+                  <!--begin:Menu item-->
+                  <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="#">
+                      <span class="menu-bullet">
+                        <span class="bullet bullet-dot"></span>
+                      </span>
+                      <span class="menu-title">Newsletters</span>
+                    </a>
+                    <!--end:Menu link-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+            <!--begin:Menu link-->
+            <span class="menu-link">
+              <span class="menu-icon">{% getIcon 'abstract-25' 'fs-2' %}</span>
+              <span class="menu-title">Future Enhancements</span>
+              <span class="menu-arrow"></span>
+            </span>
+            <!--end:Menu link-->
+            <!--begin:Menu sub-->
+            <div class="menu-sub menu-sub-accordion">
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">Upcoming Features Section</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">User Suggestions and Voting</span>
+                </a>
+                <!--end:Menu link-->
+              </div>
+              <!--end:Menu item-->
+              <!--begin:Menu item-->
+              <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#">
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title"
+                    >Preview of Planned Integrations</span
+                  >
+                </a>
+                <!--end:Menu link-->
+              </div>
+            </div>
+            <!--end:Menu sub-->
+          </div>
+        <!--end::Menu-->
+      </div>
+      {% endif %}
+
+      <!--end::Menu wrapper-->
+    </div>
+    <!--end::sidebar menu-->
+  </div>
+</div>

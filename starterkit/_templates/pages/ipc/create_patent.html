@@ -1,0 +1,1302 @@
+{% extends layout %} {% load i18n %} {% block title %}
+{% translate "Create-Patent" %} {% endblock %} {% block css %}
+<!--begin::Global Stylesheets(mandatory)-->
+{% getGlobalAssets 'css' as assets_css %} {% for file in assets_css %}
+<link href="{% static file %}" rel="stylesheet" type="text/css" />
+{% endfor %}
+<!--end::Global Stylesheets-->
+{% endblock css %} {% block content %}
+<!DOCTYPE html>
+<!--
+Author: Keenthemes
+Product Name: Metronic 
+Product Version: 8.2.3
+Purchase: https://1.envato.market/EA4JP
+Website: http://www.keenthemes.com
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+License: For each use you must have a valid license purchased only from above link in order to legally use the theme for your project.
+-->
+<html lang="en">
+<!--begin::Head-->
+
+<head>
+  <base href="../../" />
+  <title>
+   Create Patent
+  </title>
+  <meta charset="utf-8" />
+  <meta name="description"
+    content="The most advanced Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free." />
+  <meta name="keywords"
+    content="metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel starter kits, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Metronic - The World's #1 Selling Bootstrap Admin Template by KeenThemes" />
+  <meta property="og:url" content="https://keenthemes.com/metronic" />
+  <meta property="og:site_name" content="Metronic by Keenthemes" />
+  <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+  <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+  <!--begin::Fonts(mandatory for all pages)-->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+  <!--end::Fonts-->
+  <!--begin::Vendor Stylesheets(used for this page only)-->
+  <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+  <!--end::Vendor Stylesheets-->
+  <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+  <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+  <!--end::Global Stylesheets Bundle-->
+  <script>
+    // Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }
+  </script>
+  <style>
+    /* loader  */
+
+    /* .loadershow {
+        position: fixed;
+        top: 0;
+        left: 265px;
+        width: 86%;
+        height: 100%;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      } */
+
+    .loadershow {
+      position: fixed;
+      top: 0;
+      left: 75px;
+      width: 94%;
+      height: 100%;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 104;
+    }
+
+    .my-table-hidden {
+      display: none !important;
+    }
+    .form-control.form-control-solid {
+      background-color: #e9e7e7;
+    }
+
+    .loadershow p {
+      margin-top: 10px;
+      color: #333;
+      font-size: 20px;
+    }
+
+    .hourglass {
+      border: 0;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    .hourglass {
+      --bg: #e3e4e8;
+      --fg: #2e3138;
+      --primary: #255ff4;
+      font-size: calc(16px + (24 - 16) * (100vw - 320px) / (1280 - 320));
+    }
+
+    .hourglass {
+      background: var(--bg);
+      display: grid;
+      font: 1em/1.5 sans-serif;
+      height: 100vh;
+      place-items: center;
+    }
+
+    .hourglass,
+    .hourglass:before,
+    .hourglass:after {
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+    }
+
+    .hourglass {
+      --polygonH: polygon(0% 0%,
+          100% 0%,
+          100% 5.55%,
+          95% 5.55%,
+          95% 28%,
+          60% 46%,
+          60% 54%,
+          95% 72%,
+          95% 94.45%,
+          100% 94.45%,
+          100% 100%,
+          0% 100%,
+          0% 94.45%,
+          5% 94.45%,
+          5% 72%,
+          40% 54%,
+          40% 46%,
+          5% 28%,
+          5% 5.55%,
+          0% 5.55%);
+      animation-name: flip;
+      animation-timing-function: ease-in-out;
+      background-image: linear-gradient(var(--primary) 0.5em,
+          #737a8c55 0.5em 8.5em,
+          var(--primary) 8.5em);
+      clip-path: var(--polygonH);
+      -webkit-clip-path: var(--polygonH);
+      overflow: hidden;
+      position: relative;
+      width: 5em;
+      height: 9em;
+      z-index: 0;
+    }
+
+    .hourglass:before,
+    .hourglass:after {
+      animation-timing-function: linear;
+      content: "";
+      display: block;
+      position: absolute;
+    }
+
+    .hourglass:before {
+      --polygonB1: polygon(0% 0%,
+          100% 0%,
+          100% 24%,
+          50% 47%,
+          50% 47%,
+          50% 47%,
+          50% 47%,
+          50% 47%,
+          50% 47%,
+          50% 47%,
+          50% 47%,
+          0% 24%);
+      --polygonB2: polygon(0% 4%,
+          100% 4%,
+          100% 24%,
+          55% 45%,
+          55% 100%,
+          55% 100%,
+          55% 100%,
+          45% 100%,
+          45% 100%,
+          45% 100%,
+          45% 45%,
+          0% 24%);
+      --polygonB3: polygon(0% 24%,
+          100% 24%,
+          100% 24%,
+          55% 45%,
+          55% 80%,
+          100% 100%,
+          100% 100%,
+          0% 100%,
+          0% 100%,
+          45% 80%,
+          45% 45%,
+          0% 24%);
+      --polygonB4: polygon(45% 45%,
+          55% 45%,
+          55% 45%,
+          55% 45%,
+          55% 58%,
+          100% 76%,
+          100% 100%,
+          0% 100%,
+          0% 76%,
+          45% 58%,
+          45% 45%,
+          45% 45%);
+      --polygonB5: polygon(50% 53%,
+          50% 53%,
+          50% 53%,
+          50% 53%,
+          50% 53%,
+          100% 76%,
+          100% 100%,
+          0% 100%,
+          0% 76%,
+          50% 53%,
+          50% 53%,
+          50% 53%);
+      animation-name: fill;
+      background-color: var(--fg);
+      background-size: 100% 3.6em;
+      clip-path: var(--polygonB1);
+      -webkit-clip-path: var(--polygonB1);
+      top: 0.5em;
+      left: 0.5em;
+      width: 4em;
+      height: 8em;
+      z-index: 1;
+    }
+
+    .hourglass:after {
+      animation-name: glare;
+      background: linear-gradient(90deg,
+          #0000 0.5em,
+          #0003 0.5em 1.5em,
+          #0000 1.5em 3.5em,
+          #fff3 3.5em 4.5em,
+          #fff0 4.5em 6.5em,
+          #0003 6.5em 7.5em,
+          #0000 7.5em) 0 0 / 100% 0.5em,
+        linear-gradient(90deg,
+          #0000 0.75em,
+          #0003 0.75em 1.25em,
+          #0000 1.25em 3.75em,
+          #fff3 3.75em 4.25em,
+          #fff0 4.25em 6.75em,
+          #0003 6.75em 7.25em,
+          #0000 7.25em) 0 0.5em / 100% 8em,
+        linear-gradient(90deg,
+          #0000 0.5em,
+          #0003 0.5em 1.5em,
+          #0000 1.5em 3.5em,
+          #fff3 3.5em 4.5em,
+          #fff0 4.5em 6.5em,
+          #0003 6.5em 7.5em,
+          #0000 7.5em) 0 100% / 100% 0.5em;
+      background-repeat: repeat-x;
+      top: 0;
+      left: -3em;
+      width: 200%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    /* Animations */
+    @keyframes fill {
+      from {
+        clip-path: var(--polygonB1);
+        -webkit-clip-path: var(--polygonB1);
+      }
+
+      10% {
+        clip-path: var(--polygonB2);
+        -webkit-clip-path: var(--polygonB2);
+      }
+
+      45% {
+        clip-path: var(--polygonB3);
+        -webkit-clip-path: var(--polygonB3);
+      }
+
+      80% {
+        clip-path: var(--polygonB4);
+        -webkit-clip-path: var(--polygonB4);
+      }
+
+      85%,
+      to {
+        clip-path: var(--polygonB5);
+        -webkit-clip-path: var(--polygonB5);
+      }
+    }
+
+    @keyframes glare {
+
+      from,
+      90% {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(3em);
+      }
+    }
+
+    @keyframes flip {
+
+      from,
+      90% {
+        transform: rotate(0);
+      }
+
+      to {
+        transform: rotate(180deg);
+      }
+    }
+
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #17181c;
+        --fg: #c7cad1;
+      }
+    }
+
+    span.validation-message {
+      color: red;
+      font-size: 12px;
+      float: left;
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    span.tag-show {
+      margin-right: 12px;
+    }
+
+    button#downloadPdfBtn {
+      float: right;
+      border: none;
+      padding: 8px 30px;
+      border-radius: 6px;
+      background: #1b84ff;
+      color: white;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<script>
+  var defaultThemeMode = "dark";
+  var themeMode;
+  if (document.documentElement) {
+    if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+      themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
+    } else {
+      if (localStorage.getItem("data-bs-theme") !== null) {
+        themeMode = localStorage.getItem("data-bs-theme");
+      } else {
+        themeMode = defaultThemeMode;
+      }
+    }
+    if (themeMode === "system") {
+      themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    }
+    document.documentElement.setAttribute("data-bs-theme", themeMode);
+  }
+</script>
+
+<style>
+  .hidden-logo {
+    display: none;
+  }
+</style>
+
+<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+  <div id="kt_app_toolbar_container" class="d-flex flex-stack">
+    <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+      <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">
+        Create Patent
+      </h1>
+      <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+        <li class="breadcrumb-item text-muted">
+          <a href="/" class="text-muted text-hover-primary">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item text-muted">Create Patent</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="individualDataModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">SCOPES DETAILS</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Content will be inserted here dynamically using jQuery -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="app-page flex-column flex-column-fluid" id="kt_app_page">
+  <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+    <!--begin::Content wrapper-->
+    <div class="d-flex flex-column flex-column-fluid">
+      <!--begin::Toolbar-->
+      <div id="kt_app_toolbar" class="app-toolbar pt-5">
+        <!--begin::Toolbar container-->
+        <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex align-items-stretch">
+          <!--begin::Toolbar wrapper-->
+          <div class="app-toolbar-wrapper d-flex flex-stack flex-wrap gap-4 w-100">
+            <!--begin::Page title-->
+          </div>
+          <!--end::Toolbar wrapper-->
+        </div>
+        <!--end::Toolbar container-->
+      </div>
+      <!--end::Toolbar-->
+      <!--begin::Content-->
+      <div id="kt_app_content" class="app-content flex-column-fluid topcreatediv">
+        <!--begin::Content container-->
+        <div id="kt_app_content_container" class="">
+          <div class="w-lg-700px Patentdiv">
+            <form class="form w-100" method="post" id="createPatentForm">
+              {% csrf_token %}
+              <div class="row mb-10">
+                <div class="col-md-3 d-flex align-items-center justify-content-center"> <!-- Adjust the column width as needed -->
+                  <label class="form-label fs-6 fw-bold text-dark">Patent Title : </label>
+                </div>
+                <div class="col-md-9"> <!-- Adjust the column width as needed -->
+                  <input class="form-control form-control-lg form-control-solid" type="text" name="patent_title" autocomplete="off" />
+                  <span class="validation-message" id="patentTitleValidation"></span>
+                </div>
+              </div>
+
+              <!-- <div class="fv-row mb-10">
+                <label class="form-label fs-6 fw-bold text-dark">Patent Title</label>
+                <input class="form-control form-control-lg form-control-solid" type="text" name="patent_title"
+                  autocomplete="off" />
+                <span class="validation-message" id="patentTitleValidation"></span>
+              </div> -->
+
+              <div class="row mb-10">
+                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                <label class="form-label fs-6 fw-bold text-dark">Patent Owner : </label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control form-control-lg form-control-solid input-box-create-patent" type="text" name="patent_owner"
+                  autocomplete="off" />
+                <span class="validation-message" id="patentOwnerValidation"></span>
+              </div>
+              </div>
+              <div class="row mb-10">
+                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                <label class="form-label fs-6 fw-bold text-dark">Patent Date : </label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control form-control-lg form-control-solid" type="date" name="patent_date"
+                  autocomplete="off" />
+                <span class="validation-message" id="patentDateValidation"></span>
+              </div>
+              </div>
+
+              <div class="row mb-10">
+                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                <label class="form-label fs-6 fw-bold text-dark">Country Filing Destination : </label>
+              </div>
+              <div class="col-md-9">
+                        <select class="form-control form-control-lg form-control-solid" name="country_filing_destination">
+              <option value="Worldwide">Worldwide</option>
+              {% for country_code, country_name in countries %}
+                  <option value="{{ country_name }}">{{ country_name }}</option>
+              {% endfor %}
+            </select>
+                <span class="validation-message" id="countryValidation"></span>
+              </div>
+             </div>
+
+             <!-- Add client_company_name field -->
+            <div class="row mb-10">
+              <div class="col-md-3 d-flex align-items-center justify-content-center">
+                <label class="form-label fs-6 fw-bold text-dark">Client Company Name : </label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control form-control-lg form-control-solid" type="text" name="client_company_name" autocomplete="off" />
+              </div>
+            </div>
+            <!-- Add client_contact_info field -->
+            <div class="row mb-10">
+              <div class="col-md-3 d-flex align-items-center justify-content-center">
+                <label class="form-label fs-6 fw-bold text-dark">Client Contact Info : </label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control form-control-lg form-control-solid" type="text" name="client_contact_info" autocomplete="off" />
+              </div>
+            </div>
+
+            <div class="row mb-10">
+              <div class="col-md-3 d-flex align-items-center justify-content-center">
+                <label class="form-label fs-6 fw-bold text-dark">Country Origin : </label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control form-control-lg form-control-solid" type="text" name="country_origin" autocomplete="off" />
+              </div>
+            </div>
+
+              <div class="row mb-10">
+                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                <label class="form-label fs-6 fw-bold text-dark">Creativity : </label>
+              </div>
+              <div class="col-md-9">
+                <input id="creativitySlider" name="creativity_range" type="range" min="0.0" max="1.0" step="0.1"
+                  value="0.5" class="form-range" />
+                <output for="creativitySlider" id="creativityValue" class="fs-6 fw-bold text-dark">14</output>
+              </div>
+              </div>
+
+              <div class="row mb-10">
+                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                <label class="form-label fs-6 fw-bold text-dark">Patent Description : </label>
+              </div>
+              <div class="col-md-9">
+                <textarea class="form-control form-control-lg form-control-solid" type="text" name="patent_description"
+                  autocomplete="off"></textarea>
+                <span class="validation-message" id="patentDescriptionValidation"></span>
+              </div>
+              </div>
+
+              <div class="text-center">
+                <button id="submitBtn" type="button" class="btn btn-lg btn-primary w-100 mb-5">
+                  <span class="indicator-label">Submit</span>
+                </button>
+              </div>
+            </form>
+
+            <div class="loadershow" id="fullScreenLoader" style="display: none">
+              <div id="client_company_name_" style="display: none;"></div>
+              <div id="client_contact_info_" style="display: none;"></div>
+              <div id="country_filing_destination_" style="display: none;"></div>
+              <div id="country_origin_" style="display: none;"></div>
+
+
+              <div id="confidentiality_notice" style="display: none;"></div>
+
+              <div id="generate_summary" style="display: none;"></div>
+
+
+
+              
+
+
+              <div class="hourglass"></div>
+              <p>Loading....</p>
+            </div>
+          </div>
+
+          <!-- table *************************** -->
+
+          <h2 class="text-center mb-12 text-dark">
+            Suggested Patentable scopes and IPC sets
+          </h2>
+          <img alt="Logo" src="{% static 'media/logos/Hannah-removebg.png' %}" class="hidden-logo" id="hiddenLogo" />
+          <img alt="Logo" src="{% static 'media/logos/menicons.png' %}" class="hidden-logo" id="hiddenLogoThird" />
+          <img alt="Logo" src="{% static 'media/logos/uericnos.png' %}" class="hidden-logo" id="hiddenLogoFour" />
+          <img alt="Logo" src="{% static 'media/logos/globe-showing-data-icons.svg' %}" class="hidden-logo" id="hiddenLogoFive" />
+          <img alt="Logo" src="{% static 'media/logos/gearFirst.png' %}" class="hidden-logo" id="hiddenLogoSix" />
+          <img alt="Logo" src="{% static 'media/logos/ailogoshow.png' %}" class="hidden-logo" id="hiddenLogoSeven" />
+
+
+          <button id="downloadPdfBtn">Downlod Report PDF</button>
+
+          <!--begin::table-->
+          <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container">
+              <!--begin::Toolbar-->
+              <div class="d-flex flex-wrap flex-stack pb-7">
+                <!--begin::Title-->
+                <div class="d-flex flex-wrap align-items-center my-1">
+                  <h3 class="fw-bold me-5 my-1">
+                    Total Entries (<span id="totalcount">0</span>)
+                  </h3>
+                </div>
+                <!--end::Title-->
+              </div>
+              <!--end::Toolbar-->
+              <!--begin::Navbar-->
+              <div class="card mb-8">
+                <div class="card-body pt-2 pb-0">
+                  <!--begin::Table container-->
+                  <div class="table-responsive">
+                    <!--begin::Table-->
+                    <table id="myDataTable" class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold">
+                      <thead class="fs-7 text-gray-500 text-uppercase">
+                        <tr>
+                          <th class="min-w-250px">Scopes</th>
+                          <th class="min-w-100px">CIP Edition</th>
+                          <th class="min-w-50px">CIP Section</th>
+                          <th class="min-w-50px">CIP class</th>
+                          <th class="min-w-50px">CIP Subclass</th>
+                          <th class="min-w-50px">CIP Group</th>
+                          <th class="min-w-50px">CIP Subgroup</th>
+                          <th class="min-w-100px">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody class="fs-6">
+                        <tr></tr>
+                      </tbody>
+                    </table>
+
+                    <table id="myDataTable2"
+                      class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold my-table-hidden">
+                      <thead class="fs-7 text-gray-500 text-uppercase">
+                        <tr>
+                          <th class="min-w-250px">Scopes</th>
+                          <th class="min-w-100px">CIP Edition</th>
+                          <th class="min-w-50px">CIP Section</th>
+                          <th class="min-w-50px">CIP class</th>
+                          <th class="min-w-50px">CIP Subclass</th>
+                          <th class="min-w-50px">CIP Group</th>
+                          <th class="min-w-50px">CIP Subgroup</th>
+                          <th class="min-w-100px">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody class="fs-6">
+                        <tr></tr>
+                      </tbody>
+                    </table>
+
+                    <!--end::Table-->
+                  </div>
+                  <!--end::Table container-->
+                </div>
+              </div>
+              <!--end::Navbar-->
+            </div>
+            <!--end::Content container-->
+          </div>
+          <!--end::table-->
+
+          <div class="table-info-show mb-12">
+            <div class="container">
+              <table class="rwd-table">
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="loaderContainer" class="text-center creatediv1" style="display: none">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <p>Loading...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Scrolltop-->
+  <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+    <i class="ki-duotone ki-arrow-up">
+      <span class="path1"></span>
+      <span class="path2"></span>
+    </i>
+  </div>
+  <!--Scrolltop-->
+
+  <script>
+    var hostUrl = "assets/";
+  </script>
+  <script src="assets/plugins/global/plugins.bundle.js"></script>
+  <script src="assets/js/scripts.bundle.js"></script>
+  <!--end::Global Javascript Bundle-->
+  <!--begin::Vendors Javascript(used for this page only)-->
+  <script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+  <!--end::Vendors Javascript-->
+  <!--begin::Custom Javascript(used for this page only)-->
+  <script src="assets/js/custom/apps/projects/list/list.js"></script>
+  <script src="assets/js/custom/apps/projects/users/users.js"></script>
+  <script src="assets/js/widgets.bundle.js"></script>
+  <script src="assets/js/custom/widgets.js"></script>
+  <script src="assets/js/custom/apps/chat/chat.js"></script>
+  <script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+  <script src="assets/js/custom/utilities/modals/create-app.js"></script>
+  <script src="assets/js/custom/utilities/modals/users-search.js"></script>
+  <script src="assets/js/custom/utilities/modals/new-target.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Initialize the creativity slider
+      var creativitySlider = document.getElementById("creativitySlider");
+      var creativityValue = document.getElementById("creativityValue");
+
+      // Set the initial value of the output
+      creativityValue.innerHTML = creativitySlider.value;
+
+      // Update the output value when the slider is changed
+      creativitySlider.addEventListener("input", function () {
+        creativityValue.innerHTML = this.value;
+      });
+    });
+  </script>
+
+
+
+
+
+  <script>
+    $(document).ready(function () {
+      $("#submitBtn").click(function () {
+        // Clear previous validation messages
+        $(".validation-message").text("");
+
+        // Perform client-side validation
+        var patentTitle = $("input[name='patent_title']").val();
+        var patentOwner = $("input[name='patent_owner']").val();
+        var patentDate = $("input[name='patent_date']").val();
+        var patentDescription = $(
+          "textarea[name='patent_description']"
+        ).val();
+        var errors = [];
+
+        if (!patentTitle) {
+          errors.push("Patent Title is required");
+          $("#patentTitleValidation").text("Patent Title is required");
+        }
+
+        if (!patentOwner) {
+          errors.push("Patent Owner is required");
+          $("#patentOwnerValidation").text("Patent Owner is required");
+        }
+
+        if (!patentDate) {
+          errors.push("Patent Date is required");
+          $("#patentDateValidation").text("Patent Date is required");
+        }
+
+        if (!patentDescription) {
+          errors.push("Patent Description is required");
+          $("#patentDescriptionValidation").text(
+            "Patent Description is required"
+          );
+        }
+
+        // Stop form submission if there are errors
+        if (errors.length > 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Please fill in all the required fields.",
+            showConfirmButton: true,
+            confirmButtonText: "OK, got it!",
+          });
+          return;
+        }
+
+        // Show the loader
+        $("#fullScreenLoader").show();
+
+        // Get form data
+        var formData = $("#createPatentForm").serialize();
+
+        // Ajax request
+        $.ajax({
+          type: "POST",
+          url: "{% url 'create_patent' %}",
+          data: formData,
+
+          success: function (response) {
+            var serialNumber = 1;
+            var ipcObjects = response?.context.ipc_objects;
+            var storedResponse = response;
+            var scopesData = storedResponse?.context.patentable_scopes;
+            var scopesData_ = storedResponse?.context.patentable_scopes;
+
+            $("#client_company_name_").append(response.context?.client_company_name);
+            $("#client_contact_info_").append(response.context?.client_contact_info);
+            $("#country_filing_destination_").append(response.context?.country_filing_destination);
+            $("#country_origin_").append(response.context?.country_origin);
+
+
+            $("#confidentiality_notice").append(response.context?.confidentiality_notice);
+            $("#generate_summary").append(response.context?.generate_summary);
+
+
+
+            $(document).ready(function () {
+              // Rebind event listener for dynamically generated buttons after page load
+              $(document).on('click', '.read-more-btn', function () {
+                console.log("Full Scopes Data:", scopesData); // Debugging statement
+                $('#individualDataModal .modal-body').html('<p>' + scopesData + '</p>');
+                $('#individualDataModal').modal('show');
+              });
+
+
+            });
+
+
+            $("#responsecontainer").html("Response: " + scopesData);
+
+            $("#myDataTable tbody").empty();
+            $("#myDataTable2 tbody").empty();
+
+            ipcObjects.forEach(function (ipcObject) {
+              var edition = ipcObject.ipc_object.edition;
+
+              var rowIndex = 0;
+
+              var description = ipcObject.ipc_object.text_body;
+
+              description = description.replace(/\[|\]/g, "");
+              description = description.replace(/['"]/g, "");
+              var descriptionArray = description.split(",");
+
+              var formattedDescription = descriptionArray
+                .map(function (item) {
+                  // Calculate bgColorClass based on the rowIndex
+                  var bgColorClass =
+                    rowIndex % 3 === 0
+                      ? "badge-light-success"
+                      : rowIndex % 3 === 1
+                        ? "badge-light-danger"
+                        : "badge-light-warning";
+                  rowIndex++;
+
+                  return (
+                    "<span class='tag-show badge fw-bold px-4 py-3 mb-4 mr-4 " +
+                    bgColorClass +
+                    "'>" +
+                    item.trim() +
+                    "</span>"
+                  );
+                })
+                .join("");
+
+              // Now use formattedDescription wherever you need to display it
+              // ...
+              $("#myDataTable tbody").append(
+                "<tr>" +
+                "<td data-th='Scopes'>" +
+                scopesData.substring(0, 60) +
+                "<button class='btn btn-link read-more-btn' data-scopes-data='{{ scopesData }}'>Read More</button>" +
+                "</td>" +
+                "<td data-th='CIP Edition'>" +
+                edition +
+                "</td>" +
+                "<td data-th='CIP Section'>" +
+                ipcObject.section +
+                "</td>" +
+                "<td data-th='CIP class'>" +
+                ipcObject.main_class +
+                "</td>" +
+                "<td data-th='CIP Subclass'>" +
+                ipcObject.subclass +
+                "</td>" +
+                "<td data-th='CIP Group'>" +
+                ipcObject.main_group +
+                "</td>" +
+                "<td data-th='CIP Subgroup'>" +
+                ipcObject.subgroup +
+                "</td>" +
+                "<td data-th='Description'>" +
+                formattedDescription +
+                "</td>" +
+                "</tr>"
+              );
+
+              $("#myDataTable2 tbody").append(
+                "<tr>" +
+                "<td data-th='Scopes'>" +
+                scopesData +
+                "</td>" +
+                "<td data-th='CIP Edition'>" +
+                edition +
+                "</td>" +
+                "<td data-th='CIP Section'>" +
+                ipcObject.section +
+                "</td>" +
+                "<td data-th='CIP class'>" +
+                ipcObject.main_class +
+                "</td>" +
+                "<td data-th='CIP Subclass'>" +
+                ipcObject.subclass +
+                "</td>" +
+                "<td data-th='CIP Group'>" +
+                ipcObject.main_group +
+                "</td>" +
+                "<td data-th='CIP Subgroup'>" +
+                ipcObject.subgroup +
+                "</td>" +
+                "<td data-th='Description'>" +
+                formattedDescription +
+                "</td>" +
+                "</tr>"
+              );
+
+              serialNumber++;
+            });
+            $("#totalcount").html(serialNumber - 1);
+            const table = document.getElementById("myDataTable");
+            $(table).DataTable();
+            // Initialize DataTable with sorting
+            // $('#myDataTable').DataTable({
+            //   "order": [[1, "asc"]]  // Default sorting by CIP Edition in ascending order
+            // });
+          },
+          error: function (error) {
+            // Handle errors
+            console.log("Error:", error);
+          },
+          complete: function () {
+            // Hide the loader after the request is complete, regardless of success or error
+            $("#fullScreenLoader").hide();
+          },
+        });
+      });
+      // pdf download code
+
+      $("#downloadPdfBtn").click(function () {
+        var textContent = extractTextFromTable();
+        var logoImage = $("#hiddenLogo")[0]; // Get the logo image element
+        var currentDate = getCurrentDate();
+        downloadPdf(textContent, logoImage, currentDate);
+      });
+
+      function extractTextFromTable() {
+        var textContent = "";
+
+        $("#myDataTable tbody tr").each(function () {
+          $(this)
+            .find("td")
+            .each(function () {
+              textContent += $(this).text() + "\n";
+            });
+          textContent += "\n"; // Add a newline between rows
+        });
+
+        return textContent.trim(); // Trim to remove leading/trailing whitespace
+      }
+
+      function getCurrentDate() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, "0");
+        var mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+        var yyyy = today.getFullYear();
+
+        return mm + "/" + dd + "/" + yyyy;
+      }
+
+      function getImageDataURL(img) {
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+
+        // Convert the canvas content to a data URL
+        return canvas.toDataURL("image/png");
+      }
+
+      function stripHtml(html) {
+        var doc = new DOMParser().parseFromString(html, "text/html");
+        return doc.body.textContent || "";
+      }
+
+      function downloadPdf() {
+        var table = $("#myDataTable2").DataTable();
+        var logoImage = $("#hiddenLogo")[0];
+        var logoDataURL = getImageDataURL(logoImage);
+       
+        var hiddenLogoThird = $("#hiddenLogoThird")[0];
+      var logoDataURLThird = getImageDataURL(hiddenLogoThird);
+
+      var hiddenLogoSeven = $("#hiddenLogoSeven")[0];
+      var logoDataURLSeven = getImageDataURL(hiddenLogoSeven);
+
+      var hiddenLogoSix = $("#hiddenLogoSix")[0];
+      var logoDataURLSix = getImageDataURL(hiddenLogoSix);
+
+      var hiddenLogoFive = $("#hiddenLogoFive")[0];
+      var logoDataURLFive = getImageDataURL(hiddenLogoFive);
+
+      var hiddenLogoFour = $("#hiddenLogoFour")[0];
+      var logoDataURLFour = getImageDataURL(hiddenLogoFour); 
+
+        var currentDate = getCurrentDate();
+
+        var client_company_name_ = $("#client_company_name_").text().trim();
+        var client_contact_info_ = $("#client_contact_info_").text().trim();
+        var country_filing_destination_ = $("#country_filing_destination_").text().trim();
+        var country_origin_ = $("#country_origin_").text().trim();
+
+        var confidentiality_notice = $("#confidentiality_notice").text().trim();
+
+        var generate_summary = $("#generate_summary").text().trim();
+
+
+        
+
+
+        var docDefinition = {
+          header: function(currentPage, pageCount, pageSize) {
+              return {
+                  table: {
+                      widths: ['*'],
+                      heights: 40,
+                      body: [
+                          [
+                              {
+                                  text: 'IPAMAS AI',
+                                  alignment: 'left',
+                                  margin: [10, 10],
+                                  fontSize: 12,
+                                  color: '#FFFFFF',
+                                  border: [false, false, false, false],
+                                  fillColor: '#002137',
+                              }
+                              
+                          ]
+                      ]
+                  },
+                  layout: 'noBorders',
+                  margin: [10, 10]
+              };
+          },
+          content: [
+            // Additional Information
+            {
+                  image: logoDataURL,
+                  width: 100,
+                  alignment: 'right',
+                  margin: [0, 0,0, 0],
+                },
+                {
+        columns: [
+          {
+            width: '*',
+            alignment:'right',
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 100, y2: 0 }],
+            bold:true,
+            margin: [0, 12,0, 0],
+          },
+          {
+            width: 80,
+            text: "IPAMAS",
+            fontSize: 18,
+            bold: true,
+          },
+          {
+            width: '*',
+            alignment:'left',
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 100, y2: 0 }],
+            bold:true,
+            margin: [0, 12,0, 0],
+          }
+            ],
+            // columnGap: 10,
+              margin: [0, 60,0, 50],
+            },
+            {
+              table: {
+              widths: ['*'], // Adjust the widths as needed
+
+              body: [
+            [{
+                columns: [
+                    {
+                        table: {
+                            widths: ['*'],
+                            alignment:'center',
+                            margin: [0, 60,0, 50],
+                            body: [
+                                [{
+                                    border: [false, false, false, false],
+                                    text: "IPAMAS Patent Analysis Report",
+                                    fontSize: 36,
+                                    color: '#0000',
+                                    fillColor: '#FFFFFF',
+                                    bold: true,
+                                    margin: [0, 0,0, 0],
+                                    alignment:'center'
+                                }, ],
+                            ]
+                        },
+                        width: '100%',
+                    },
+
+                ],
+                // widths:['20%','80%'],
+                // columnGap: 20,
+                fillColor: '#FFFFFF',
+                border: [false, false, false, false],
+                      }]
+                  ]
+              },
+            },
+            // {
+            //     text: "COUNTY OF COUNTY \n COUNTY COUNTY",
+            //     fontSize: 18,
+            //     bold: true,
+            //     margin: [70, 20,0, 20],
+            //   },
+        
+              {
+    style: 'section',
+    margin: [0, 40, 0, 40], 
+    table: {
+        widths: ['*', '*', '*','*', '*', '*'], // Adjust the widths as needed
+        heights: 40,
+        alignment: "center",
+        body: [
+            [
+                {
+                    image: logoDataURLThird,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+                {
+                    image: logoDataURLSeven,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+                {
+                    image: logoDataURLSix,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+                {
+                    image: logoDataURLFive,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+                {
+                    image: logoDataURLFour,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+                {
+                    image: logoDataURLThird,
+                    color: '#FFFFFF',
+                    fillColor: '#002137',
+                    width: 50,
+                },
+            ],
+        ],
+    },
+    layout: 'noBorders'
+},
+            // {
+            //   image: logoDataURL,
+            //   width: 200,
+            //   alignment: "center",
+            //   margin: [0, 10, 0, 0],
+            // },
+            {
+              text: "IPAMAS Patent Analysis Report",
+              fontSize: 16,
+              bold: true,
+              margin: [0, 20, 0, 0],
+            },
+            {
+              text: "User's Name or Firm's Name : {{request.user.username}}",
+              fontSize: 14,
+              bold: true,
+              margin: [0, 5, 0, 0],
+            },
+            {
+              text: 'Company Name :' +client_company_name_,
+              fontSize: 14,
+              bold: true,
+              margin: [0, 5, 0, 0],
+            },
+            {
+              text: "Client Contact Info : " +client_contact_info_,
+              fontSize: 14,
+              bold: true,
+              margin: [0, 5, 0, 0],
+            },
+            {
+              text: "Country Filing Destination : " + country_filing_destination_,
+              fontSize: 14,
+              bold: true,
+              margin: [0, 5, 0, 0],
+            },
+            {
+              text: "Country Origin : " + country_origin_,
+              fontSize: 14,
+              bold: true,
+              margin: [0, 5, 0, 0],
+            },
+            {
+              text: "Submission Date : " + currentDate,
+              fontSize: 14,
+              bold: true,
+              margin: [0, 5, 0, 40],
+            },
+            {
+              text: confidentiality_notice,
+              fontSize: 12,
+              bold: true,
+              margin: [0, 5, 0, 30],
+            },
+            {
+              text: "Executive Summary: \n" + generate_summary,
+              fontSize: 14,
+              bold: true,
+              margin: [10, 5, 0, 30],
+            },
+            // Table content
+            {
+              table: {
+                widths: [220, 40, 20, 20, 20, 20, 20, 80], // Adjust column widths as needed
+                body: [
+                  [
+                    { text: "Scopes" },
+                    { text: "CIP Edition" },
+                    { text: "CIP Section" },
+                    { text: "CIP class" },
+                    { text: "CIP Subclass" },
+                    { text: "CIP Group" },
+                    { text: "CIP Subgroup" },
+                    { text: "Description" },
+                  ],
+                  // You can add additional rows based on your table structure
+                ].concat(
+                  table
+                    .rows()
+                    .data()
+                    .toArray()
+                    .map((row) => [
+                      row[0],
+                      row[1],
+                      row[2],
+                      row[3],
+                      row[4],
+                      row[5],
+                      row[6],
+                      stripHtml(row[7]), // Remove HTML tags from Description
+                    ])
+                ),
+              },
+            },
+          ],
+          pageMargins: [ 40, 60, 40, 60 ],
+        styles: {
+        section: {
+            fontSize: 9,
+            color: '#FFFFFF',
+            fillColor: '#002137',
+            margin: [0, 15, 0, 5]
+        }
+    },
+    defaultStyle: {
+        fillColor:"#d7dfe3",
+    },
+        };
+
+        pdfMake.createPdf(docDefinition).download("PatentAnalysisReport.pdf");
+      }
+    });
+  </script>
+
+  <!--end::Custom Javascript-->
+  <!--end::Javascript-->
+  {% endblock %}
+</div>
+
+</html>
